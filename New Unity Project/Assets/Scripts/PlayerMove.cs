@@ -8,21 +8,12 @@ public class PlayerMove : MonoBehaviour {
     public bool isJumping;
     public bool grounded;
     public float airTime;
-
-    public bool walkingUp;
-    public bool walkingDown;
-    public bool walkingLeft;
-    public bool walkingRight;
 	
 	private bool isWalking;
 	private Rigidbody rb;
 
     // Use this for initialization
     void Start () {
-        walkingUp = false;
-        walkingDown = false;
-        walkingLeft = false;
-        walkingRight = false;
         isWalking = false;
         isJumping = false;
         airTime = 0f;
@@ -32,6 +23,7 @@ public class PlayerMove : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         Walk();
+        Ground();
         Jump();
 	}
 
@@ -40,75 +32,12 @@ public class PlayerMove : MonoBehaviour {
 
 		transform.position += new Vector3(Input.GetAxis ("Horizontal")*speed, 0f, Input.GetAxis("Vertical")*speed);
 
-		/*
-        if (Input.GetKeyDown("w") && walkingUp == false)
-        {
-            walkingUp = true;
-            isWalking = true;
-        }
-        if (Input.GetKeyDown("a") && walkingLeft == false)
-        {
-            walkingLeft = true;
-            isWalking = true;
-        }
-        if (Input.GetKeyDown("s") && walkingDown == false)
-        {
-            walkingDown = true;
-            isWalking = true;
-        }
-        if (Input.GetKeyDown("d") && walkingRight == false)
-        {
-            walkingRight = true;
-            isWalking = true;
-        }
-
-        if(isWalking == true)
-        {
-            if (walkingUp == true)
-            {
-                if( Input.GetKeyUp("w") != true)
-                {
-                    this.transform.position += new Vector3(0f, 0f, 0.075f);
-                }
-                else { walkingUp = false; }
-            }
-            if (walkingLeft == true)
-            {
-                if (Input.GetKeyUp("a") != true)
-                {
-                    this.transform.position += new Vector3(-0.075f, 0f, 0f);
-                }
-                else { walkingLeft = false; }
-            }
-            if (walkingDown == true)
-            {
-                if (Input.GetKeyUp("s") != true)
-                {
-                    this.transform.position += new Vector3(0f, 0f, -0.075f);
-                }
-                else { walkingDown = false; }
-            }
-            if (walkingRight == true)
-            {
-                if (Input.GetKeyUp("d") != true)
-                {
-                    this.transform.position += new Vector3(0.075f, 0f, 0f);
-                }
-                else { walkingRight = false; }
-            }
-            if(walkingUp != true && walkingLeft != true && walkingRight != true && walkingDown != true)
-            {
-                isWalking = false;
-            }
-        }
-        */
     }
     void Jump()
     {
         if (Input.GetKeyDown("space") && grounded == true)
         {
             isJumping = true;
-            grounded = false;
         }
         if(isJumping == true)
         {
@@ -134,17 +63,24 @@ public class PlayerMove : MonoBehaviour {
             }
         }
     }
-    void OnCollisionEnter (Collision col)
+
+    void Ground()
     {
-        if(col.gameObject.tag == "Floor")
+        float distToGround = this.GetComponent<Collider>().bounds.extents.y;
+        if (Physics.Raycast(transform.position, -Vector3.up, distToGround + 0.3f))
         {
             grounded = true;
         }
+        else
+        {
+            grounded = false;
+        }
     }
-	void OnCollisionExit (Collision col) {
-		if(col.gameObject.tag == "Floor")
-		{
-			grounded = false;
-		}
+
+    void OnCollisionEnter (Collision col)
+    {
+    }
+	void OnCollisionExit (Collision col)
+    {
 	}
 }
