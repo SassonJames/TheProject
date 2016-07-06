@@ -3,7 +3,8 @@ using System.Collections;
 
 public class PlayerMove : MonoBehaviour {
 
-    private bool isWalking;
+	public float speed;
+
     public bool isJumping;
     public bool grounded;
     public float airTime;
@@ -12,6 +13,9 @@ public class PlayerMove : MonoBehaviour {
     public bool walkingDown;
     public bool walkingLeft;
     public bool walkingRight;
+	
+	private bool isWalking;
+	private Rigidbody rb;
 
     // Use this for initialization
     void Start () {
@@ -22,6 +26,7 @@ public class PlayerMove : MonoBehaviour {
         isWalking = false;
         isJumping = false;
         airTime = 0f;
+		rb = GetComponent<Rigidbody> ();
     }
 	
 	// Update is called once per frame
@@ -32,6 +37,10 @@ public class PlayerMove : MonoBehaviour {
 
     void Walk()
     {
+
+		transform.position += new Vector3(Input.GetAxis ("Horizontal")*speed, 0f, Input.GetAxis("Vertical")*speed);
+
+		/*
         if (Input.GetKeyDown("w") && walkingUp == false)
         {
             walkingUp = true;
@@ -92,6 +101,7 @@ public class PlayerMove : MonoBehaviour {
                 isWalking = false;
             }
         }
+        */
     }
     void Jump()
     {
@@ -131,4 +141,10 @@ public class PlayerMove : MonoBehaviour {
             grounded = true;
         }
     }
+	void OnCollisionExit (Collision col) {
+		if(col.gameObject.tag == "Floor")
+		{
+			grounded = false;
+		}
+	}
 }
