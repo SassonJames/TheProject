@@ -6,36 +6,35 @@ public class PlayerMove : MonoBehaviour {
 	public float speed;
 
     public bool isJumping;
-    public bool isWalking;
     public bool grounded;
-    public bool insideBuilding;
-
     public float airTime;
 	
+	private bool isWalking;
 	private Rigidbody rb;
 
     // Use this for initialization
     void Start () {
-        isWalking = true;
+        isWalking = false;
         isJumping = false;
-        insideBuilding = false;
         airTime = 0f;
 		rb = GetComponent<Rigidbody> ();
     }
 	
 	// Update is called once per frame
 	void Update () {
-        if (isWalking == true)
-        {
-            Walk();
-            Jump();
-        }
+        Walk();
         Ground();
+        Jump();
 	}
 
     void Walk()
     {
+<<<<<<< HEAD
 		//transform.Translate(new Vector3(Input.GetAxis ("Horizontal")*speed, 0f, Input.GetAxis("Vertical")*speed));
+=======
+<<<<<<< HEAD
+		transform.Translate(new Vector3(Input.GetAxis ("Horizontal")*speed, 0f, Input.GetAxis("Vertical")*speed));
+>>>>>>> 6edc3ea3bb6d462eac9483f330663bb254ae7145
 		//transform.position += new Vector3(Input.GetAxis ("Horizontal")*speed, 0f, Input.GetAxis("Vertical")*speed);
 		//rb.velocity = new Vector3(Input.GetAxis ("Horizontal")*speed, rb.velocity.y, Input.GetAxis("Vertical")*speed);
 		
@@ -47,6 +46,10 @@ public class PlayerMove : MonoBehaviour {
         {
             transform.position += new Vector3(Input.GetAxis("Vertical") * speed * -1, 0f, Input.GetAxis("Horizontal") * speed);
         }
+=======
+
+		transform.position += new Vector3(Input.GetAxis ("Horizontal")*speed, 0f, Input.GetAxis("Vertical")*speed);
+>>>>>>> parent of 7655a2c... Building Interaction
 
     }
     void Jump()
@@ -91,12 +94,6 @@ public class PlayerMove : MonoBehaviour {
         {
             grounded = false;
         }
-    }
-
-    public void RotateCharacter()
-    {
-        this.transform.LookAt(GameObject.FindGameObjectWithTag("Camera").transform.position);
-        this.transform.rotation = new Quaternion(0, this.transform.rotation.y, 0, this.transform.rotation.w);
     }
 
     void OnCollisionEnter (Collision col)
