@@ -35,13 +35,11 @@ public class PlayerMove : MonoBehaviour {
 
     void Walk()
     {
-<<<<<<< HEAD
 		transform.Translate(new Vector3(Input.GetAxis ("Horizontal")*speed, 0f, Input.GetAxis("Vertical")*speed));
 		//transform.position += new Vector3(Input.GetAxis ("Horizontal")*speed, 0f, Input.GetAxis("Vertical")*speed);
 		//rb.velocity = new Vector3(Input.GetAxis ("Horizontal")*speed, rb.velocity.y, Input.GetAxis("Vertical")*speed);
 
 	}
-=======
         if (insideBuilding != true)
         {
             transform.position += new Vector3(Input.GetAxis("Horizontal") * speed, 0f, Input.GetAxis("Vertical") * speed);
@@ -52,7 +50,6 @@ public class PlayerMove : MonoBehaviour {
         }
 
     }
->>>>>>> 7655a2c8781b2a7a02bcb1ca58d9a0fb0cc1fb1b
     void Jump()
     {
         if (Input.GetKeyDown("space") && grounded == true)
