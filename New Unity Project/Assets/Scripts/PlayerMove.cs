@@ -35,11 +35,10 @@ public class PlayerMove : MonoBehaviour {
 
     void Walk()
     {
-		transform.Translate(new Vector3(Input.GetAxis ("Horizontal")*speed, 0f, Input.GetAxis("Vertical")*speed));
+		//transform.Translate(new Vector3(Input.GetAxis ("Horizontal")*speed, 0f, Input.GetAxis("Vertical")*speed));
 		//transform.position += new Vector3(Input.GetAxis ("Horizontal")*speed, 0f, Input.GetAxis("Vertical")*speed);
 		//rb.velocity = new Vector3(Input.GetAxis ("Horizontal")*speed, rb.velocity.y, Input.GetAxis("Vertical")*speed);
-
-	}
+		
         if (insideBuilding != true)
         {
             transform.position += new Vector3(Input.GetAxis("Horizontal") * speed, 0f, Input.GetAxis("Vertical") * speed);
