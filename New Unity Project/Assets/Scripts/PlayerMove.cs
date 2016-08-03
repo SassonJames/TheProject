@@ -29,12 +29,9 @@ public class PlayerMove : MonoBehaviour {
 
     void Walk()
     {
-<<<<<<< HEAD
 		//transform.Translate(new Vector3(Input.GetAxis ("Horizontal")*speed, 0f, Input.GetAxis("Vertical")*speed));
-=======
-<<<<<<< HEAD
-		transform.Translate(new Vector3(Input.GetAxis ("Horizontal")*speed, 0f, Input.GetAxis("Vertical")*speed));
->>>>>>> 6edc3ea3bb6d462eac9483f330663bb254ae7145
+
+		//transform.Translate(new Vector3(Input.GetAxis ("Horizontal")*speed, 0f, Input.GetAxis("Vertical")*speed));
 		//transform.position += new Vector3(Input.GetAxis ("Horizontal")*speed, 0f, Input.GetAxis("Vertical")*speed);
 		//rb.velocity = new Vector3(Input.GetAxis ("Horizontal")*speed, rb.velocity.y, Input.GetAxis("Vertical")*speed);
 		
@@ -46,10 +43,7 @@ public class PlayerMove : MonoBehaviour {
         {
             transform.position += new Vector3(Input.GetAxis("Vertical") * speed * -1, 0f, Input.GetAxis("Horizontal") * speed);
         }
-=======
-
 		transform.position += new Vector3(Input.GetAxis ("Horizontal")*speed, 0f, Input.GetAxis("Vertical")*speed);
->>>>>>> parent of 7655a2c... Building Interaction
 
     }
     void Jump()
