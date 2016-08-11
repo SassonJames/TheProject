@@ -25,6 +25,8 @@ public class Player : MonoBehaviour {
 	public Stack spells;
 	public Stack imbues;
 
+	private bool casting = false;
+
 	public void Awake() {
 		unlockedImbues = _unlockedImbues;
 		unlockedSpells = _unlockedSpells;
@@ -38,9 +40,38 @@ public class Player : MonoBehaviour {
 	public void Update() {
 		//if (activeSpell != null && !activeSpell.GetComponent<ScriptManager>().shouldUpdate)
 		//	activeSpell.gameObject.transform.position = transform.position + spellPosition;
-		updateHPBar ();
-		if (Input.GetKeyDown("escape")) {
+
+		// Activate this later when UI is done
+		//updateHPBar ();
+
+		// Handle state changes
+		if (Input.GetKeyDown(KeyCode.Escape)) {
 			Application.Quit();
+		}
+		if (Input.GetKeyDown (KeyCode.LeftShift)) {
+			Debug.Log ("Casting...");
+			casting = true;
+			ShowSpells();
+		}
+		if (Input.GetKeyUp (KeyCode.LeftShift)) {
+			Debug.Log ("Done.");
+			casting = false;
+			HideSpellUI();
+			ReleaseSpell(); // Releasing shift releases the spell
+		}
+
+		// Handle input while casting
+
+		// If no spell is active, hotkeys create base spell
+		if (casting && activeSpell == null) {
+			if (Input.GetKeyDown (KeyCode.Z)) {
+				CastSpell (unlockedSpells[0]);
+			}
+		// Else, attach imbues to active spell
+		} else if (casting) {
+			if (Input.GetKeyDown (KeyCode.Z)) {
+				imbue(unlockedImbues[0]);
+			}
 		}
 	}
 
@@ -49,14 +80,14 @@ public class Player : MonoBehaviour {
 	 */
 	public void CastSpell(string type) {
 
-		if (stunned)
+		if (stunned || !casting)
 			return;
 
 		if (activeSpell != null)
 			spells.Push (activeSpell);
 
 		int manaCost = 0;
-
+		
 		switch (type) {
 		case "Light Damage":
 			manaCost = 10;
@@ -70,6 +101,7 @@ public class Player : MonoBehaviour {
 			activeSpell.GetComponent<ScriptManager>().size = 0.5f;
 			break;
 		case "Damage":
+			Debug.Log("Hi im here");
 			manaCost = 25;
 			// Return if too expensive
 			if (manaCost > mana) {
@@ -120,7 +152,9 @@ public class Player : MonoBehaviour {
 			mana -= manaCost;
 			activeSpell.gameObject.transform.position = transform.position + spellPosition;
 			activeSpell.GetComponent<ScriptManager> ().owner = this.gameObject;
-			UpdateManabar ();
+
+			// Activate this later when UI is done
+			//UpdateManabar ();
 			UpdateSelector ();
 			ReleaseSpell();
 			return;
@@ -129,7 +163,9 @@ public class Player : MonoBehaviour {
 		activeSpell.gameObject.transform.position = transform.position + spellPosition;
 		activeSpell.GetComponent<ScriptManager>().mana = manaCost;
 		activeSpell.GetComponent<ScriptManager> ().owner = this.gameObject;
-		UpdateManabar ();
+
+		// Activate this later when UI is done
+		//UpdateManabar ();
 		UpdateSelector ();
 	}
 
@@ -222,6 +258,23 @@ public class Player : MonoBehaviour {
 			float size = activeSpell.GetComponent<ScriptManager>().size;
 			selector.transform.localScale = new Vector3(size, size, 1f);
 		}
+	}
+
+	/// UNIMPEMENTED UI CODE HERE /// 
+
+	// Shows a list of spells the player may cast
+	// and which key they must press to cast them
+	public void ShowSpells() {
+		//TODO
+	}
+	// Shows a list of imbues the player may atach to the active spell
+	// and which key they must press to cast them
+	public void ShowImbues() {
+		//TODO
+	}
+	// Removes spellcasting HUD once spellcasting has finished.
+	public void HideSpellUI() {
+		//TODO
 	}
 
 	public void UpdateManabar() {

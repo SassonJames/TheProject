@@ -27,7 +27,7 @@ public class ScriptManager : MonoBehaviour {
 		if (owner == null)
 			return;
 		owner.GetComponent<Player> ().mana += this.mana;
-		owner.GetComponent<Player>().UpdateManabar ();
+		//owner.GetComponent<Player>().UpdateManabar ();
 		owner.GetComponent<Player>().UpdateActiveSpell (gameObject);
 		owner.GetComponent<Player>().UpdateSelector ();
 	}
