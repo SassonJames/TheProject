@@ -1,15 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TargetNearest : MonoBehaviour {
+public class TargetNearest :  BaseImbue {
 
 	public string targetTag;
 	private ScriptManager manager;
 
 	void Start() {
-		manager = gameObject.GetComponent<ScriptManager> ();
+		manager = GetComponent<ScriptManager> ();
 		if (!manager.isCustom)
-			targetTag = manager.args [1];
+			targetTag = args [1];
 	}
 
 	// Update is called once per frame

@@ -16,19 +16,19 @@ public class ScriptManager : MonoBehaviour {
 	 */
 	public Component attachScript(string script) {
 		if (this.GetComponent(script) == null)
-			return UnityEngineInternal.APIUpdaterRuntimeServices.AddComponent(gameObject, "Assets/_Scripts/ScriptManager.cs (12,3)", script);
+			return UnityEngineInternal.APIUpdaterRuntimeServices.AddComponent(gameObject, "Assets/Scripts/ScriptManager.cs (12,3)", script);
 		return null;
 	}
 
 	/*
-	 * Return mana to the owner. Update the Acrive Spell and indicator as needed
+	 * Return mana to the owner. Update the Active Spell and indicator as needed
 	 */
 	public void OnDestroy() { 
 		if (owner == null)
 			return;
 		owner.GetComponent<Player> ().mana += this.mana;
-		//owner.GetComponent<Player>().UpdateManabar ();
-		owner.GetComponent<Player>().UpdateActiveSpell (gameObject);
+        owner.GetComponent<Player>().UpdateManabar ();
+        owner.GetComponent<Player>().UpdateActiveSpell (gameObject);
 		owner.GetComponent<Player>().UpdateSelector ();
 	}
 }

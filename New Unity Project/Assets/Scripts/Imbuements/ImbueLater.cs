@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ImbueLater : MonoBehaviour {
+public class ImbueLater : BaseImbue {
 
-	int delay;
-	string imbue;
-	ScriptManager manager;
+	public int delay;
+	public string imbue;
+	public ScriptManager manager;
+	public string[] nextArgs;
 	private bool shouldCast = true;
 
 	/*
@@ -14,8 +15,12 @@ public class ImbueLater : MonoBehaviour {
 	void Start () {
 		manager = GetComponent<ScriptManager> ();
 		if (!manager.isCustom) {
-			imbue = manager.args [1];
-			delay = int.Parse (manager.args [2]);
+			imbue = args [1];
+			nextArgs = new string[args.Length-1];
+			for (int i=0; i<nextArgs.Length; i++) {
+				nextArgs[i] = args[i+1];
+			}
+			delay = int.Parse (args [2]);
 		}
 	}
 
@@ -33,7 +38,8 @@ public class ImbueLater : MonoBehaviour {
 	 * Attach the imbument script
 	 */
 	void MakeImbue() {
-		manager.attachScript (imbue);
+		BaseImbue imbueComponent = manager.attachScript (imbue) as BaseImbue;
+		imbueComponent.args = nextArgs;
 	}
 
 }
