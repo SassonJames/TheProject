@@ -215,7 +215,7 @@ public class Player : MonoBehaviour {
 	 * Attach a script to the active spell.
 	 * The input string is broken up into tokens and passed to the imbuement script as arguments.
 	 * 
-	 * Test:aaa:bbb:(ccc:ddd:(eee:fff:(ggg)):hhh):iii:((jjj:kkk):lll):mmm
+	 * Test:aaa:bbb:(ccc:ddd:(eee:fff:(ggg)):hhh):iii:((jjj:kkk):lll):(mmm):nnn
 	 * 
 	 */
 	public void Imbue(string imbuement) {
@@ -223,7 +223,7 @@ public class Player : MonoBehaviour {
 			return;
 		imbuement = imbuement.Replace (" ", "");
 		//string[] tokens = imbuement.Split (':');
-		string[] tokens = parseImbuement(imbuement);
+		string[] tokens = ParseImbuement(imbuement);
 		foreach (string s in tokens)
 			Debug.Log (s);
 		imbuement = tokens [0];
@@ -242,12 +242,16 @@ public class Player : MonoBehaviour {
 	 * Breaks down an imbuement string into argument tokens for the imbuement script
 	 * A token is defined as:
 	 * 
-	 * 		A string enclosed in parentheses
+	 * 		A string enclosed in the outer-most layer of parentheses
 	 * 		A string separated by a colon
 	 * 
 	 * in that order.
+	 * 
+	 * "Test:aaa:bbb:(ccc:ddd:(eee:fff:(ggg)):hhh):iii:((jjj:kkk):lll):(mmm):nnn"
+	 * yeilds
+	 * ["Test", "aaa", "bbb", "ccc:ddd:(eee:fff:(ggg)):hhh", "iii", "(jjj:kkk):lll", "mmm", "nnn"]
 	 */
-	public static string[] parseImbuement(string imbuement) {
+	public static string[] ParseImbuement(string imbuement) {
 		// First, split the string into tokens based on parentheses
 		ArrayList p1 = new ArrayList ();
 		ArrayList p2 = new ArrayList ();
@@ -277,22 +281,17 @@ public class Player : MonoBehaviour {
 		if (pcount > 0 || p1.Count != p2.Count)
 			throw new UnityException ("Bad parentheses");
 
-		//object[] p1a = p1.ToArray ();
-		//object[] p2a = p2.ToArray ();
-
-		//Debug.Log (p1a.Length);
-
 		// Start putting the tokens in list
 		for (int i = 1; i < p1.Count; i++) {
-			// +1 to remove '(' character
+			// +1 to remove ')' character
 			int idx = (int)p2 [i - 1] + 1;
 			int length = (int)p1 [i] - (int)p2 [i - 1] - 1;
 			string substr = imbuement.Substring (idx, length);
 			if (substr != "")
 				parse.Add (substr);
-			// +1 to remove ')' character
-			idx = (int)p1 [i] + 1;
-			length = (int)p2 [i] - (int)p1 [i] - 1;
+			
+			idx = (int)p1 [i];
+			length = (int)p2 [i] - (int)p1 [i];
 			substr = imbuement.Substring (idx, length);
 			if (substr != "")
 				parse.Add (substr);
@@ -302,19 +301,19 @@ public class Player : MonoBehaviour {
 		if (last_token != "")
 			parse.Add (last_token);
 		
-		foreach (string s in parse)
-			Debug.Log (s);
+		//foreach (string s in parse)
+		//	Debug.Log (s);
 
-		// Start splitting the non-paren tokens by ":". Valid input strings do not start with a parenthesis.
+		// Start splitting the non-paren tokens by ":"
 		ArrayList tokens = new ArrayList ();
 		for (int i = 0; i < parse.Count; i++) {
-			if (i % 2 == 0) {
+			if (((string)parse[i])[0] != '(') {
 				string[] subarr = ((string)parse [i]).Split (':');
 				foreach (string s in subarr)
 					if (s != "")
 						tokens.Add (s);
 			} else
-				tokens.Add (parse [i]);
+				tokens.Add (((string)parse [i]).Substring(1)); // Remove leading '('
 		}
 
 		// Convert to array. Default ToArray() method keeps returning an empty array (???)
