@@ -5,7 +5,6 @@ public class ImbueLater : BaseImbue {
 
 	public int delay;
 	public string imbue;
-	public ScriptManager manager;
 	public string[] nextArgs;
 	private bool shouldCast = true;
 
@@ -13,7 +12,6 @@ public class ImbueLater : BaseImbue {
 	 * Get the spell arguments from the ScriptManager.
 	 */
 	void Start () {
-		manager = GetComponent<ScriptManager> ();
 		if (!manager.isCustom) {
 			imbue = args [1];
 			nextArgs = new string[args.Length-1];

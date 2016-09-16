@@ -4,7 +4,6 @@ using System.Collections;
 public class MoveForward : BaseImbue {
 	
 	public float speed = 5.0f;
-	public ScriptManager manager;
 
 	void Start() {
 		manager = GetComponent<ScriptManager>();

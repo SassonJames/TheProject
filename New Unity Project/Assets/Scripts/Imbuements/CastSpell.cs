@@ -3,12 +3,10 @@ using System.Collections;
 
 public class CastSpell : BaseImbue {
 
-	public ScriptManager manager;
 	public Player owner;
 	public string type;
 
 	void Start() {
-		manager = GetComponent<ScriptManager>();
 		if (manager.isCustom)
 			return;
 

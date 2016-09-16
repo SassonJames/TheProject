@@ -69,11 +69,11 @@ public class Player : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Escape)) {
             Application.Quit();
         } if (Input.GetKeyDown(KeyCode.LeftShift)) {
-            Debug.Log("Casting...");
+            //Debug.Log("Casting...");
             casting = true;
             ShowSpells();
         } if (Input.GetKeyUp(KeyCode.LeftShift)) {
-            Debug.Log("Done.");
+            //Debug.Log("Done.");
             casting = false;
             HideSpellUI();
             ReleaseSpell(); // Releasing shift releases the spell
@@ -232,6 +232,7 @@ public class Player : MonoBehaviour {
 		// Add the imbuement to the stack
 		if (scriptComponent != null) {
 			scriptComponent.args = tokens;
+			scriptComponent.manager = activeSpell.GetComponent<ScriptManager> ();
 			imbues.Push(activeImbue);
 			activeImbue = imbuement;
 			//Debug.Log (imbues.Peek());
@@ -419,7 +420,6 @@ public class Player : MonoBehaviour {
 			imbuesUIItems [i].setSelection (imbuesUIItems [i].options [0]);
 			//imbuesUIItems [i].setPostSelection (imbuesUIItems [i].options [1]);
 		}
-
 	}
     
     // The following 3 functions will show/hide relevant information regarding the 

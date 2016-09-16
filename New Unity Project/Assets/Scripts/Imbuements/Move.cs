@@ -5,7 +5,6 @@ public class Move : BaseImbue {
 
 	int delay;
 	string imbue;
-	ScriptManager manager;
 	public float x_speed;
     public float y_speed;
     public float z_speed;

@@ -5,7 +5,6 @@ public class Magnetism : BaseImbue {
 	
 	public float speed = 5.0f;
 	public GameObject target;
-	public ScriptManager manager;
 
 	private Vector3 stay = new Vector3(0,0,0);
 

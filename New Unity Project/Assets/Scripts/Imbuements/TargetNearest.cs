@@ -4,7 +4,6 @@ using System.Collections;
 public class TargetNearest :  BaseImbue {
 
 	public string targetTag;
-	private ScriptManager manager;
 
 	void Start() {
 		manager = GetComponent<ScriptManager> ();
