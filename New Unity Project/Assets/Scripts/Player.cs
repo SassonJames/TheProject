@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Text.RegularExpressions;
 
 public class Player : MonoBehaviour {
 
@@ -212,12 +213,19 @@ public class Player : MonoBehaviour {
 
 	/**
 	 * Attach a script to the active spell.
+	 * The input string is broken up into tokens and passed to the imbuement script as arguments.
+	 * 
+	 * Test:aaa:bbb:(ccc:ddd:(eee:fff:(ggg)):hhh):iii:((jjj:kkk):lll):mmm
+	 * 
 	 */
 	public void Imbue(string imbuement) {
 		if (activeSpell == null)
 			return;
 		imbuement = imbuement.Replace (" ", "");
-		string[] tokens = imbuement.Split (':');
+		//string[] tokens = imbuement.Split (':');
+		string[] tokens = parseImbuement(imbuement);
+		foreach (string s in tokens)
+			Debug.Log (s);
 		imbuement = tokens [0];
 		BaseImbue scriptComponent = activeSpell.GetComponent<ScriptManager>().attachScript (imbuement) as BaseImbue;
 
@@ -229,9 +237,97 @@ public class Player : MonoBehaviour {
 			//Debug.Log (imbues.Peek());
 		}
 	}
+
+	/*
+	 * Breaks down an imbuement string into argument tokens for the imbuement script
+	 * A token is defined as:
+	 * 
+	 * 		A string enclosed in parentheses
+	 * 		A string separated by a colon
+	 * 
+	 * in that order.
+	 */
+	public static string[] parseImbuement(string imbuement) {
+		// First, split the string into tokens based on parentheses
+		ArrayList p1 = new ArrayList ();
+		ArrayList p2 = new ArrayList ();
+		ArrayList parse = new ArrayList ();
+
+		int pcount = 0;
+		p1.Add (-1);
+		p2.Add (-1);
+		// Search for the outer-most parenthesis pairs
+		for (int i = 0; i < imbuement.Length; i++) {
+			if (imbuement [i] == '(') {
+				//Debug.Log ("("+pcount);
+				if (pcount == 0)
+					p1.Add (i);
+				pcount++;
+			}
+			if (imbuement [i] == ')') {
+				pcount--;
+				//Debug.Log (")"+pcount);
+				if (pcount == 0)
+					p2.Add (i);
+			}
+			if (pcount < 0) // Throw exceptions for poorly formed strings
+				throw new UnityException ("Bad parentheses");
+		}
+		// Throw exceptions for poorly formed strings
+		if (pcount > 0 || p1.Count != p2.Count)
+			throw new UnityException ("Bad parentheses");
+
+		//object[] p1a = p1.ToArray ();
+		//object[] p2a = p2.ToArray ();
+
+		//Debug.Log (p1a.Length);
+
+		// Start putting the tokens in list
+		for (int i = 1; i < p1.Count; i++) {
+			// +1 to remove '(' character
+			int idx = (int)p2 [i - 1] + 1;
+			int length = (int)p1 [i] - (int)p2 [i - 1] - 1;
+			string substr = imbuement.Substring (idx, length);
+			if (substr != "")
+				parse.Add (substr);
+			// +1 to remove ')' character
+			idx = (int)p1 [i] + 1;
+			length = (int)p2 [i] - (int)p1 [i] - 1;
+			substr = imbuement.Substring (idx, length);
+			if (substr != "")
+				parse.Add (substr);
+		}
+		// If there is still text after the last closing paren, add it as a token
+		string last_token = imbuement.Substring ((int)p2 [p2.Count - 1] + 1, imbuement.Length - (int)p2 [p2.Count - 1] - 1);
+		if (last_token != "")
+			parse.Add (last_token);
+		
+		foreach (string s in parse)
+			Debug.Log (s);
+
+		// Start splitting the non-paren tokens by ":". Valid input strings do not start with a parenthesis.
+		ArrayList tokens = new ArrayList ();
+		for (int i = 0; i < parse.Count; i++) {
+			if (i % 2 == 0) {
+				string[] subarr = ((string)parse [i]).Split (':');
+				foreach (string s in subarr)
+					if (s != "")
+						tokens.Add (s);
+			} else
+				tokens.Add (parse [i]);
+		}
+
+		// Convert to array. Default ToArray() method keeps returning an empty array (???)
+		string[] ret = new string[tokens.Count];
+		for (int i = 0; i < ret.Length; i++)
+			ret [i] = (string)tokens [i];
+
+		// return tokens.ToArray() as string[];
+		return ret;
+	}
 	
 	/*
-	 * Handle collisions with spells. Currently just take damage.
+	 * Handle collisions with spells. Currently just take dama	ge.
 	 */ 
 	public void OnTriggerEnter(Collider coll) {
 		//Debug.Log (coll.gameObject.name);
