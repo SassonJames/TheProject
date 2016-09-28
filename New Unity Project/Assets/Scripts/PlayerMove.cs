@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PlayerMove : MonoBehaviour {
 
-	public float speed;
+	private float speed;
 
     public bool isJumping;
     public bool isWalking;
@@ -16,10 +16,12 @@ public class PlayerMove : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        speed = 0.1f;
         isWalking = true;
         isJumping = false;
         insideBuilding = false;
         airTime = 0f;
+        Physics.gravity = new Vector3(0.0f, -1.2f, 0.0f);
 		rb = GetComponent<Rigidbody> ();
     }
 	
@@ -27,65 +29,52 @@ public class PlayerMove : MonoBehaviour {
 	void Update () {
         if (isWalking == true)
         {
-            Walk();
             Jump();
+            Walk();
         }
         Ground();
 	}
 
     void Walk()
-    {
-		//transform.Translate(new Vector3(Input.GetAxis ("Horizontal")*speed, 0f, Input.GetAxis("Vertical")*speed));
-		//transform.position += new Vector3(Input.GetAxis ("Horizontal")*speed, 0f, Input.GetAxis("Vertical")*speed);
-		//rb.velocity = new Vector3(Input.GetAxis ("Horizontal")*speed, rb.velocity.y, Input.GetAxis("Vertical")*speed);
-		
-        if (insideBuilding != true)
-        {
-            transform.position += new Vector3(Input.GetAxis("Horizontal") * speed, 0f, Input.GetAxis("Vertical") * speed);
-        }
-        else
-        {
-            transform.position += new Vector3(Input.GetAxis("Vertical") * speed * -1, 0f, Input.GetAxis("Horizontal") * speed);
-        }
-
+    {	
+            AddWalkVelocity();
+            /*
+             * Check for Collision
+             */
+            transform.position += GetComponent<Rigidbody>().velocity;
     }
+
     void Jump()
     {
-        if (Input.GetKeyDown("space") && grounded == true)
+        if (grounded == true)
+        {
+            GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x, 0.0f, GetComponent<Rigidbody>().velocity.z);
+        }
+        if (Input.GetKey("space") && airTime < 15)
         {
             isJumping = true;
+            GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x, 0.15f, GetComponent<Rigidbody>().velocity.z);
+            airTime += 1;
+            isJumping = true;
         }
-        if(isJumping == true)
+        if (Input.GetKeyUp("space"))
         {
-            if (airTime <= 0.15f && Input.GetKeyUp("space") != true)
-            {
-                this.transform.Translate(Vector3.up * 9 * Time.deltaTime, Space.World);
-                airTime += Time.deltaTime;
-            }
-            else if (airTime <= 0.3 && Input.GetKeyUp("space") != true)
-            {
-                this.transform.Translate(Vector3.up * 7 * Time.deltaTime, Space.World);
-                airTime += Time.deltaTime;
-            }
-            else if (airTime <= 0.45 && Input.GetKeyUp("space") != true)
-            {
-                this.transform.Translate(Vector3.up * 4 * Time.deltaTime, Space.World);
-                airTime += Time.deltaTime;
-            }
-            else
-            {
-                airTime = 0;
-                isJumping = false;
-            }
+            isJumping = false;
+            airTime = 15;
+        }
+        if(airTime >= 15)
+        {
+            isJumping = false;
         }
     }
 
     void Ground()
     {
         float distToGround = this.GetComponent<Collider>().bounds.extents.y;
-        if (Physics.Raycast(transform.position, -Vector3.up, distToGround + 0.3f))
+        if (Physics.Raycast(transform.position, -Vector3.up, distToGround))
         {
             grounded = true;
+            airTime = 0;
         }
         else
         {
@@ -105,4 +94,9 @@ public class PlayerMove : MonoBehaviour {
 	void OnCollisionExit (Collision col)
     {
 	}
+
+    private void AddWalkVelocity()
+    {
+        GetComponent<Rigidbody>().velocity = new Vector3(Input.GetAxis("Horizontal") * speed, GetComponent<Rigidbody>().velocity.y, Input.GetAxis("Vertical") * speed);
+    }
 }
