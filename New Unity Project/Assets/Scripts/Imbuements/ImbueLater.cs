@@ -5,7 +5,6 @@ public class ImbueLater : BaseImbue {
 
 	public int delay;
 	public string imbue;
-	public string[] nextArgs;
 	private bool shouldCast = true;
 
 	/*
@@ -13,12 +12,8 @@ public class ImbueLater : BaseImbue {
 	 */
 	void Start () {
 		if (!manager.isCustom) {
-			imbue = args [1];
-			nextArgs = new string[args.Length-1];
-			for (int i=0; i<nextArgs.Length; i++) {
-				nextArgs[i] = args[i+1];
-			}
-			delay = int.Parse (args [2]);
+			delay = int.Parse (args [1]);
+			imbue = args [2].Replace (" ", "");
 		}
 	}
 
@@ -36,8 +31,14 @@ public class ImbueLater : BaseImbue {
 	 * Attach the imbument script
 	 */
 	void MakeImbue() {
-		BaseImbue imbueComponent = manager.attachScript (imbue) as BaseImbue;
-		imbueComponent.args = nextArgs;
+		string[] iargs = Player.ParseImbuement (imbue);
+		BaseImbue scriptComponent = manager.attachScript (imbue) as BaseImbue;
+
+		// Add the imbuement to the stack
+		if (scriptComponent != null) {
+			scriptComponent.args = iargs;
+			scriptComponent.manager = manager;
+		}
 	}
 
 }

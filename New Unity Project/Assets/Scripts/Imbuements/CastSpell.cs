@@ -29,33 +29,12 @@ public class CastSpell : BaseImbue {
 
 		spell.transform.position = transform.position;
 
-		// Imbue only if args contains an imbue
-		if (args.Length <= 2) {
-			owner.ReleaseSpell();
-			return;
-		}
-
-		// Recombine the args string for each imbuement
-		string imbue = "";
+		// imbue the new spell
 		for (int i=2; i<args.Length; i++) {
-			if (args[i] == "Imbue" && imbue != "") {
-				Debug.Log(imbue);
-				owner.Imbue(imbue);
-				imbue = "";
-			} else if(args[i] == "Imbue") {
-				// Do nothing
-			} else {
-				if (imbue == "") {
-					imbue += args[i];
-				} else {
-					imbue += ":"+args[i];
-				}
-			}
+			owner.Imbue (args[i]);
 		}
-
-		if (imbue != "")
-			owner.Imbue(imbue);
 
 		owner.ReleaseSpell();
+		Destroy (this);
 	}
 }
