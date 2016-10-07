@@ -58,18 +58,13 @@ public class PlayerMove : MonoBehaviour {
             Walk();
         }
 
+		Ground();
 		m_vPreviousPosition = transform.position;
-
-        Ground();
 	}
 
     void Walk()
     {	
             AddWalkVelocity();
-            /*
-             * Check for Collision
-             */
-            //transform.position += GetComponent<Rigidbody>().velocity;
     }
 
     void Jump()
