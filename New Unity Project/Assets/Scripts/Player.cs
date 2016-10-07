@@ -43,7 +43,7 @@ public class Player : MonoBehaviour {
 	public void Start() {
 		imbues = new Stack ();
 		spells = new Stack ();
-		return;
+
 		spellsUIItems = new CastUIItem[_spellsUIItems.Length];
 		imbuesUIItems = new CastUIItem[_imbuesUIItems.Length];
 
@@ -71,11 +71,11 @@ public class Player : MonoBehaviour {
         } if (Input.GetKeyDown(KeyCode.LeftShift)) {
             //Debug.Log("Casting...");
             casting = true;
-            //ShowSpells();
+            ShowSpells();
         } if (Input.GetKeyUp(KeyCode.LeftShift)) {
             //Debug.Log("Done.");
             casting = false;
-            //HideSpellUI();
+            HideSpellUI();
             ReleaseSpell(); // Releasing shift releases the spell
         }
 
@@ -86,9 +86,8 @@ public class Player : MonoBehaviour {
             for (int i=0; i<hotkeys.Length; i++) {
                 if (i > unlockedSpells.Length) break;
 				if (Input.GetKeyDown(hotkeys[i])) {
-					//if (CastSpell(spellsUIItems[i].getSelection()) != null)
-						//ShowImbues(); 
-					CastSpell(unlockedSpells[i]);
+					if (CastSpell(spellsUIItems[i].getSelection()) != null)
+						ShowImbues(); 
 					break;
 				}
             }
@@ -96,8 +95,7 @@ public class Player : MonoBehaviour {
         } else if (casting) {
             for (int i = 0; i < hotkeys.Length; i++) {
 				if (i > unlockedImbues.Length) break;
-				//if (Input.GetKeyDown(hotkeys[i])) Imbue(imbuesUIItems[i].getSelection());
-				if (Input.GetKeyDown(hotkeys[i])) Imbue(unlockedImbues[i]);
+				if (Input.GetKeyDown(hotkeys[i])) Imbue(imbuesUIItems[i].getSelection());
             }
         }
 		if (activeSpell != null)
