@@ -22,19 +22,19 @@ public class CastSpell : BaseImbue {
 		// Have the owner create the spell
 		// This makes it cost mana each spell cast
 		GameObject spell = owner.CastSpell(type);
+		Debug.Log (type);
 
-		// return if spellcast failed
-		if (spell == null)
-			return;
+		if (spell != null) {
 
-		spell.transform.position = transform.position;
+			spell.transform.position = transform.position;
 
-		// imbue the new spell
-		for (int i=2; i<args.Length; i++) {
-			owner.Imbue (args[i]);
+			// imbue the new spell
+			for (int i=2; i<args.Length; i++) {
+				owner.Imbue (args [i]);
+			}
+
+			owner.ReleaseSpell ();
 		}
-
-		owner.ReleaseSpell();
 		Destroy (this);
 	}
 }

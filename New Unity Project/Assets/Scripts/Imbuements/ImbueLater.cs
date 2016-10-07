@@ -32,7 +32,7 @@ public class ImbueLater : BaseImbue {
 	 */
 	void MakeImbue() {
 		string[] iargs = Player.ParseImbuement (imbue);
-		BaseImbue scriptComponent = manager.attachScript (imbue) as BaseImbue;
+		BaseImbue scriptComponent = manager.attachScript (iargs[0]) as BaseImbue;
 
 		// Add the imbuement to the stack
 		if (scriptComponent != null) {
