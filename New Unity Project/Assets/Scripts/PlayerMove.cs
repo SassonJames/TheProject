@@ -97,7 +97,7 @@ public class PlayerMove : MonoBehaviour {
 
     void Ground()
     {
-        float distToGround = this.GetComponent<Collider>().bounds.extents.y;
+        float distToGround = this.GetComponent<Collider>().bounds.extents.y + 0.001f;
         if (Physics.Raycast(transform.position, -Vector3.up, distToGround))
         {
             grounded = true;
