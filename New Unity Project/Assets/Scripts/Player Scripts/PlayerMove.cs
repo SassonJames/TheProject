@@ -21,6 +21,7 @@ public class PlayerMove : MonoBehaviour {
 	 */
 
 
+
 	public float speed;
 	public float jumpSpeed;
 	public float maxAirTime;
@@ -44,9 +45,12 @@ public class PlayerMove : MonoBehaviour {
         isWalking = true;
         isJumping = false;
         insideBuilding = false;
+
         airTime = 0f;
         Physics.gravity = new Vector3(0.0f, -gravity, 0.0f);
+
 		rb = GetComponent<Rigidbody> ();
+
 		m_vPreviousPosition = transform.position;
     }
 	
@@ -137,4 +141,6 @@ public class PlayerMove : MonoBehaviour {
 			}
 		}
     }
+
+
 }

@@ -1479,7 +1479,7 @@ BoxCollider:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1481806796}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: f5a84c56251c42a4499beb3307a9937f, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -1914,9 +1914,9 @@ MonoBehaviour:
   - Damage
   - Clear
   _unlockedImbues:
+  - MoveForward
   - 'Move: 10 : 0,0,1'
   - 'ImbueLater: 2: (Move: 10: 1,0,0)'
-  - Test
   hotkeys:
   - z
   - x

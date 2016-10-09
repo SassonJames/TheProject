@@ -5,8 +5,11 @@ using System.Text.RegularExpressions;
 
 public class Player : MonoBehaviour {
 
+	public bool prefabs____________________________________;
 	public GameObject damagePrefab;
 	public GameObject negatePrefab;
+
+	public bool gameobjects_________________________________;
 	public GameObject selector;
 	public GameObject spellsUIPanel;
 	public GameObject imbuesUIPanel;
@@ -15,12 +18,14 @@ public class Player : MonoBehaviour {
 	public Text manaField;
 	public Text hpField;
 	public Text errorField;
+
+	public bool raw_values____________________________________;
 	public Vector3 spellPosition;
 	public string[] _unlockedSpells;
 	public string[] _unlockedImbues;
     public string[] hotkeys;
 
-	public bool ____________________________________;
+	public bool init_on_start__________________________________;
 	public static string[] unlockedSpells;
 	public static string[] unlockedImbues;
 	public int health = 100;
