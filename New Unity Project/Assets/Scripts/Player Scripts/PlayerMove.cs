@@ -1,26 +1,8 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class PlayerMove : MonoBehaviour {
-
-	/*
-	 * Hey james
-	 * pls put comments
-	 * kthx
-	 * ily
-	 * <3
-	 * dump christene for me, u know i got dat good good
-	 *                                       ________
-	 *    _-----__                         /      ~~  \
-	 *  /          \_____________________/  ~~    ~~   \
-	 * |__           ~          ~              ~~     /
-	 * \           ______~_______________ ~~    ~~   \
-	 *  \_     ___/                      \  ~~       /      <---- its me
-	 *    -----                           \_____~~__/
-	 * 
-	 */
-
-
 
 	public float speed;
 	public float jumpSpeed;
@@ -73,18 +55,10 @@ public class PlayerMove : MonoBehaviour {
 
     void Jump()
 	{
-		/*
-        if (grounded)
-        {
-            rb.velocity = new Vector3(rb.velocity.x, 0.0f, rb.velocity.z);
-        }
-        */
-
         if (Input.GetKey("space") && airTime < maxAirTime)
         {
 			
             isJumping = true;
-			//GetComponent<Rigidbody>().velocity = new Vector3(GetComponent<Rigidbody>().velocity.x, 0.15f, GetComponent<Rigidbody>().velocity.z);
 			rb.velocity = new Vector3(rb.velocity.x, jumpSpeed, rb.velocity.z);
             airTime += 1;
         }
@@ -121,6 +95,10 @@ public class PlayerMove : MonoBehaviour {
 
     void OnCollisionEnter (Collision col)
     {
+        if(col.gameObject.tag == "LevelChangeCollider")
+        {
+            ChangeLevel(col.gameObject);
+        }
     }
 	void OnCollisionExit (Collision col)
     {
@@ -140,6 +118,14 @@ public class PlayerMove : MonoBehaviour {
 				transform.position = hit.point;
 			}
 		}
+    }
+
+    void ChangeLevel(GameObject obj)
+    {
+        int goToLevel = obj.GetComponent<LevelChangerData>().toLevel;
+        Debug.Log("I hit tit.");
+        float fadeTime = GameObject.Find("Player").GetComponent<FadeTransition>().BeginFade(1);
+        SceneManager.LoadScene(goToLevel);
     }
 
 

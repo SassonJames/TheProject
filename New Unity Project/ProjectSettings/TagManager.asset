@@ -10,6 +10,7 @@ TagManager:
   - debugFlag
   - DamageSpell
   - NegationSpell
+  - LevelChangeCollider
   layers:
   - Default
   - TransparentFX

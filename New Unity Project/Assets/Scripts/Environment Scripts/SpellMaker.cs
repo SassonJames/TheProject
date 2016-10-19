@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 public class SpellMaker : MonoBehaviour {
 
@@ -189,8 +191,9 @@ public class SpellMaker : MonoBehaviour {
 		activeSpell.GetComponent<ScriptManager> ().isCustom = true;
 		int index = Menu.value;
 
-		// Create a new asset file if there is not already one.
-		if (Spells [index] == null) {
+#if UNITY_EDITOR
+        // Create a new asset file if there is not already one.
+        if (Spells [index] == null) {
 			activeSpell.GetComponent<ScriptManager> ().isCustom = true;
 			Object prefab = PrefabUtility.CreateEmptyPrefab ("Assets/Temporary/" + name + ".prefab");
 			GameObject spell = PrefabUtility.ReplacePrefab (activeSpell, prefab, ReplacePrefabOptions.ConnectToPrefab);
@@ -205,8 +208,9 @@ public class SpellMaker : MonoBehaviour {
 			Spells [index] = spell;
 			Names [index] = name;
 		}
+#endif
 
-		string menuString = ""+(index+1)+": "+name;
+        string menuString = ""+(index+1)+": "+name;
 
 		Menu.options [index].text = menuString;
 		MenuLabel.text = menuString;
@@ -266,9 +270,9 @@ public class SpellMaker : MonoBehaviour {
 			if (b != null)
 				Destroy(b.gameObject);
 		}
-
-		// Find all the prefabs and store them
-		string[] lookFor = new string[] {"Assets/Temporary"};
+#if UNITY_EDITOR
+        // Find all the prefabs and store them
+        string[] lookFor = new string[] {"Assets/Temporary"};
 		string[] guids = AssetDatabase.FindAssets ("", lookFor);
 		for (int i=0; i<guids.Length; i++) {
 			string path = AssetDatabase.GUIDToAssetPath(guids[i]);
@@ -284,9 +288,9 @@ public class SpellMaker : MonoBehaviour {
 				MenuLabel.text = menuString;;
 			}
 		}
-
-		// Create the buttons
-		for (int i=0; i<Names.Length; i++) {
+#endif
+        // Create the buttons
+        for (int i=0; i<Names.Length; i++) {
 			if (Names[i] == null || Names[i] == "")
 				continue;
 			string capture = Names[i];

@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 public class GameManager : MonoBehaviour {
 
@@ -182,9 +184,9 @@ public class GameManager : MonoBehaviour {
 			if (b != null)
 				Destroy(b.gameObject);
 		}
-
-		// Find all the prefabs and store them
-		string[] lookFor = new string[] {"Assets/Temporary"};
+#if UNITY_EDITOR
+        // Find all the prefabs and store them
+        string[] lookFor = new string[] {"Assets/Temporary"};
 		string[] guids = AssetDatabase.FindAssets ("", lookFor);
 		for (int i=0; i<guids.Length; i++) {
 			string path = AssetDatabase.GUIDToAssetPath(guids[i]);
@@ -195,9 +197,9 @@ public class GameManager : MonoBehaviour {
 			string substr = path.Split('/')[2];
 			Names[i] = substr.Substring(0, substr.Length - 7);
 		}
-		
-		// Create the buttons
-		CustomButtons = new Button[6];
+#endif
+        // Create the buttons
+        CustomButtons = new Button[6];
 		for (int i=0; i<Names.Length; i++) {
 			if (Names[i] == null || Names[i] == "")
 				continue;
