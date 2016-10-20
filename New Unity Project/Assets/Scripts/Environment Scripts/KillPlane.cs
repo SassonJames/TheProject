@@ -13,6 +13,7 @@ public class KillPlane : MonoBehaviour {
 	}
 
 	void OnCollisionEnter(Collision coll) {
+		Debug.Log ("killme");
 		if (coll.gameObject.tag == "Player") {
 			Destroy (coll.gameObject);
 			GameObject newPlayer = Instantiate (playerPrefab) as GameObject;

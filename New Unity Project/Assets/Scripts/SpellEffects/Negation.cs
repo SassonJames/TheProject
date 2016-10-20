@@ -8,7 +8,7 @@ public class Negation : MonoBehaviour {
 	void OnTriggerEnter(Collider coll) {
 		//Debug.Log (coll.gameObject.name);
 		if (coll.gameObject.tag == "DamageSpell" && GetComponent<ScriptManager>().owner != coll.GetComponent<ScriptManager>().owner) {
-			GameManager.audio.PlayOneShot(GameManager.negate);
+			//GameManager.audio.PlayOneShot(GameManager.negate);
 			Destroy (coll.gameObject);
 			Destroy (this.gameObject);
 		}

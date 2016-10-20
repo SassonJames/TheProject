@@ -4,25 +4,25 @@ using System.Collections;
 public class Magnetism : BaseImbue {
 	
 	public float speed = 5.0f;
-	public GameObject target;
 
 	private Vector3 stay = new Vector3(0,0,0);
 
 	void Start() {
-		manager = GetComponent<ScriptManager>();
+		if (args [args.Length - 1] != "add") {
+			manager.RemoveMovementScripts (this);
+		}
 	}
 
 	// Update is called once per frame
 	void LateUpdate () {
 		// Check if the object is being held in place
 		if (!manager.shouldUpdate || manager.target == null) {
-			gameObject.GetComponent<Rigidbody2D> ().velocity = stay;
+			gameObject.GetComponent<Rigidbody> ().velocity = stay;
 			return;
 		}
-		
-		// Move the x position of this Object forward
-		GameObject target = manager.target;
-		Vector3 move = Vector3.Normalize (target.transform.position - transform.position) * speed;
-		gameObject.GetComponent<Rigidbody2D> ().velocity = move;
+
+		Vector3 move = Vector3.Normalize (manager.target.transform.position - transform.position) * speed;
+		Debug.Log (move);
+		gameObject.GetComponent<Rigidbody> ().velocity = move;
 	}
 }

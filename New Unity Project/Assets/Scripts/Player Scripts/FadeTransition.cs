@@ -14,7 +14,10 @@ public class FadeTransition : MonoBehaviour {
     {
         alpha += fadeDir * fadeSpeed * Time.deltaTime;
         alpha = Mathf.Clamp01(alpha);
+		if (alpha == 0 || alpha == 1)
+			return;
 
+		// Pls don't do this every frame. Especially when it's not transitioning.
         GUI.color = new Color(GUI.color.r, GUI.color.g, GUI.color.b, alpha);
         GUI.depth = drawDepth;
         GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), fadeOutTexture);

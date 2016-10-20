@@ -4,15 +4,9 @@ using System.Collections;
 public class UnlockImbue : MonoBehaviour {
 
 	public string imbueName;
-	public GameObject _manager;
-	private GameManager manager;
-
-	void Start() {
-		manager = _manager.GetComponent<GameManager>();
-	}
 
 	// Add the new imbue to the unlocked imbues list
-	void OnTriggerEnter2D(Collider2D other) {
+	void OnTriggerEnter(Collider other) {
 		if (other.tag == "Player") {
 
 			string[] imbueList = Player.unlockedImbues;
@@ -24,7 +18,7 @@ public class UnlockImbue : MonoBehaviour {
 			newList[newLen-1] = imbueName;
 			Player.unlockedImbues = newList;
 			// Update the list in the display
-			manager.reloadImbues();
+			GameManager.reloadImbues();
 
 			Destroy(gameObject);
 		}

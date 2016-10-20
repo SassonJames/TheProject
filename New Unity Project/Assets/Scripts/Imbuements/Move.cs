@@ -14,7 +14,6 @@ public class Move : BaseImbue {
 	 * Get the spell arguments from the ScriptManager.
 	 */
 	void Start () {
-		manager = GetComponent<ScriptManager> ();
 		if (!manager.isCustom) {
 			speed   = float.Parse(args [1]);
 			Debug.Log(speed);
@@ -33,6 +32,10 @@ public class Move : BaseImbue {
                 y_speed = float.Parse(speeds[1].Trim());
                 z_speed = float.Parse(speeds[2].Trim());
             }
+
+			if (args [args.Length - 1] != "add") {
+				manager.RemoveMovementScripts (this);
+			}
 		}
 	}
 	

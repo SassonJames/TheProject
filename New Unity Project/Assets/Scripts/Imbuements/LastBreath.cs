@@ -7,7 +7,7 @@ public class LastBreath : BaseImbue {
 
 	// Use this for initialization
 	void Start () {
-		owner = GetComponent<ScriptManager>().owner.GetComponent<Player>();
+		owner = manager.owner.GetComponent<Player>();
 	}
 	
 	void OnDestroy () {

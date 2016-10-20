@@ -5,16 +5,13 @@ using System.Text.RegularExpressions;
 
 public class Player : MonoBehaviour {
 
+	// underscore names are to organize the preview in the editor
 	public bool prefabs____________________________________;
 	public GameObject damagePrefab;
 	public GameObject negatePrefab;
+	public GameObject selectorPrefab;
 
 	public bool gameobjects_________________________________;
-	public GameObject selector;
-	public GameObject spellsUIPanel;
-	public GameObject imbuesUIPanel;
-    public GameObject[] _spellsUIItems;
-    public GameObject[] _imbuesUIItems;
 	public Text manaField;
 	public Text hpField;
 	public Text errorField;
@@ -23,7 +20,6 @@ public class Player : MonoBehaviour {
 	public Vector3 spellPosition;
 	public string[] _unlockedSpells;
 	public string[] _unlockedImbues;
-    public string[] hotkeys;
 
 	public bool init_on_start__________________________________;
 	public static string[] unlockedSpells;
@@ -37,8 +33,8 @@ public class Player : MonoBehaviour {
 	public Stack imbues;
 
 	private bool casting = false;
-	private CastUIItem[] spellsUIItems;
-	private CastUIItem[] imbuesUIItems;
+	private bool autoscroll = false;
+	private GameObject selector;
 
     public void Awake() {
 		unlockedImbues = _unlockedImbues;
@@ -46,29 +42,19 @@ public class Player : MonoBehaviour {
 	}
 
 	public void Start() {
+		Camera.main.GetComponent<FollowCam> ().player = this.gameObject;
+		GameManager.MainPlayer = this.gameObject;
+
 		imbues = new Stack ();
 		spells = new Stack ();
 
-		spellsUIItems = new CastUIItem[_spellsUIItems.Length];
-		imbuesUIItems = new CastUIItem[_imbuesUIItems.Length];
-
-		for (int i = 0; i < _spellsUIItems.Length; i++) {
-			spellsUIItems [i] = _spellsUIItems [i].GetComponent<CastUIItem> ();
-		}
-		for (int i = 0; i < _imbuesUIItems.Length; i++) {
-			imbuesUIItems [i] = _imbuesUIItems [i].GetComponent<CastUIItem> ();
-		}
-
-		HideSpellUI ();
-		initCastUI ();
+		selector = Instantiate (selectorPrefab) as GameObject;
+		selector.transform.position = new Vector3 (-100, -100, -100);
 	}
 
 	public void Update() {
-        //if (activeSpell != nul
-        //if (activeSpell != null && !activeSpell.GetComponent<ScriptManager>().shouldUpdate)
-        //	activeSpell.gameObject.transform.position = transform.position + spellPosition;
 
-        updateHPBar ();
+        //updateHPBar ();
 
         // Handle state changes
         if (Input.GetKeyDown(KeyCode.Escape)) {
@@ -76,43 +62,83 @@ public class Player : MonoBehaviour {
         } if (Input.GetKeyDown(KeyCode.LeftShift)) {
             //Debug.Log("Casting...");
             casting = true;
-            ShowSpells();
+            GameManager.ShowSpells();
         } if (Input.GetKeyUp(KeyCode.LeftShift)) {
             //Debug.Log("Done.");
             casting = false;
-            HideSpellUI();
+			GameManager.HideSpellUI();
             ReleaseSpell(); // Releasing shift releases the spell
-        }
+		} 
+		// For quick scrolling through the spell/imbue menu
+		if (! (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.UpArrow))) {
+			autoscroll = false;
+		}
 
         // Handle input while casting
 
         // If no spell is active, use hotkeys create base spell
-        if (casting && activeSpell == null) {
-            for (int i=0; i<hotkeys.Length; i++) {
+		if (casting && activeSpell == null) {
+			// Arrow keys scroll through the options
+			if (Input.GetKeyDown (KeyCode.DownArrow)) {
+				GameManager.ScrollSpellsUp ();
+				Invoke ("AutoScroll", 0.5f);
+			} if (Input.GetKeyDown (KeyCode.UpArrow)) {
+				GameManager.ScrollSpellsDown ();
+				Invoke ("AutoScroll", 0.5f);
+			}
+			if (autoscroll && Input.GetKey(KeyCode.DownArrow)) {
+				GameManager.ScrollSpellsUp ();
+				autoscroll = false;
+				Invoke ("AutoScroll", 0.1f);
+			} if (autoscroll && Input.GetKey(KeyCode.UpArrow)) {
+				GameManager.ScrollSpellsDown ();
+				autoscroll = false;
+				Invoke ("AutoScroll", 0.1f);
+			}
+			for (int i=0; i<GameManager.hotkeys.Length; i++) {
                 if (i > unlockedSpells.Length) break;
-				if (Input.GetKeyDown(hotkeys[i])) {
-					if (CastSpell(spellsUIItems[i].getSelection()) != null)
-						ShowImbues(); 
+				if (Input.GetKeyDown(GameManager.hotkeys[i])) {
+					if (CastSpell(GameManager.spellsUIItems[i].getSelection()) != null)
+						GameManager.ShowImbues(); 
 					break;
 				}
             }
         // Else, attach imbues to active spell
-        } else if (casting) {
-            for (int i = 0; i < hotkeys.Length; i++) {
+		} else if (casting) {
+			// Arrow keys scroll through the options
+			if (Input.GetKeyDown(KeyCode.DownArrow)) {
+				GameManager.ScrollImbuesUp ();
+				Invoke ("AutoScroll", 0.5f);
+			} if (Input.GetKeyDown(KeyCode.UpArrow)) {
+				GameManager.ScrollImbuesDown ();
+				Invoke ("AutoScroll", 0.5f);
+			}
+			if (autoscroll && Input.GetKey(KeyCode.DownArrow)) {
+				GameManager.ScrollImbuesUp ();
+				autoscroll = false;
+				Invoke ("AutoScroll", 0.1f);
+			} if (autoscroll && Input.GetKey(KeyCode.UpArrow)) {
+				GameManager.ScrollImbuesDown ();
+				autoscroll = false;
+				Invoke ("AutoScroll", 0.1f);
+			}
+			for (int i = 0; i < GameManager.hotkeys.Length; i++) {
 				if (i > unlockedImbues.Length) break;
-				if (Input.GetKeyDown(hotkeys[i])) Imbue(imbuesUIItems[i].getSelection());
+				if (Input.GetKeyDown (GameManager.hotkeys [i])) Imbue (GameManager.imbuesUIItems [i].getSelection ());
             }
         }
+		// Make the active spell follow the player.
 		if (activeSpell != null)
 			activeSpell.gameObject.transform.position = Vector3.Lerp(activeSpell.gameObject.transform.position, transform.position + spellPosition, 0.1f);
     }
+	public void AutoScroll() {autoscroll = true;}
 
 	/**
 	 * Create a new Spell in front of the player
 	 */
 	public GameObject CastSpell(string type) {
 
-		if (stunned)
+		if (stunned || type == null || type == "")
 			return null;
 
 		if (activeSpell != null)
@@ -200,7 +226,7 @@ public class Player : MonoBehaviour {
 	}
 
 	/**
-	 * Allow the current spell to move
+	 * Allow the current spell to update
 	 */
 	public void ReleaseSpell() {
 		if (activeSpell == null)
@@ -219,18 +245,14 @@ public class Player : MonoBehaviour {
 	/**
 	 * Attach a script to the active spell.
 	 * The input string is broken up into tokens and passed to the imbuement script as arguments.
-	 * 
-	 * Test:aaa:bbb:(ccc:ddd:(eee:fff:(ggg)):hhh):iii:((jjj:kkk):lll):(mmm):nnn
-	 * 
 	 */
 	public void Imbue(string imbuement) {
-		if (activeSpell == null)
+		if (activeSpell == null || imbuement == null || imbuement == "")
 			return;
 		imbuement = imbuement.Replace (" ", "");
 		//string[] tokens = imbuement.Split (':');
 		string[] tokens = ParseImbuement(imbuement);
-		foreach (string s in tokens)
-			Debug.Log (s);
+
 		imbuement = tokens [0];
 		BaseImbue scriptComponent = activeSpell.GetComponent<ScriptManager>().attachScript (imbuement) as BaseImbue;
 
@@ -287,7 +309,7 @@ public class Player : MonoBehaviour {
 		if (pcount > 0 || p1.Count != p2.Count)
 			throw new UnityException ("Bad parentheses");
 
-		// Start putting the tokens in list
+		// Start putting the tokens in the list
 		for (int i = 1; i < p1.Count; i++) {
 			// +1 to remove ')' character
 			int idx = (int)p2 [i - 1] + 1;
@@ -332,14 +354,14 @@ public class Player : MonoBehaviour {
 	}
 	
 	/*
-	 * Handle collisions with spells. Currently just take dama	ge.
+	 * Handle collisions with spells. Currently just take damage.
 	 */ 
 	public void OnTriggerEnter(Collider coll) {
 		//Debug.Log (coll.gameObject.name);
 		if (coll.gameObject.tag == "DamageSpell" && coll.GetComponent<ScriptManager>().owner != this.gameObject) {
 			health -= coll.GetComponent<Damage>().damage;
 			Destroy (coll.gameObject);
-			GameManager.audio.PlayOneShot(GameManager.damage);
+			//GameManager.audio.PlayOneShot(GameManager.damage);
 			if (health <= 0) {
 				Destroy (this.gameObject);
 			}
@@ -390,57 +412,6 @@ public class Player : MonoBehaviour {
 		}
 	}
 
-    /*************************************
-     * UNFINISHED UI CODE HERE
-     */
-
-	/*
-	 * Initialize the UI that appears as the player is casting a spell.
-	 * Populate it with hotkeys, spell types, and imbuements.
-	 */
-	public void initCastUI() {
-		// Set hotkeys, init option arrays
-		for (int i = 0; i < hotkeys.Length; i++) {
-			spellsUIItems [i].setHotkey (hotkeys [i]);
-			spellsUIItems [i].options = new string[(unlockedSpells.Length/3)+1];
-
-			imbuesUIItems [i].setHotkey (hotkeys [i]);
-			imbuesUIItems [i].options = new string[(unlockedImbues.Length/3)+1];
-		}
-
-		// Populate option arrays. Option arrays are possible spell types/imbues
-		for (int i = 0; i < unlockedSpells.Length; i++) {
-			spellsUIItems [i % 3].options [i / 3] = unlockedSpells [i];
-		}
-
-		for (int i = 0; i < unlockedImbues.Length; i++) {
-			imbuesUIItems [i % 3].options [i / 3] = unlockedImbues [i];
-		}
-
-		// Set initial selection
-		for (int i = 0; i < hotkeys.Length; i++) {
-			spellsUIItems [i].setSelection (spellsUIItems [i].options [0]);
-			//spellsUIItems [i].setPostSelection (spellsUIItems [i].options [1]);
-
-			imbuesUIItems [i].setSelection (imbuesUIItems [i].options [0]);
-			//imbuesUIItems [i].setPostSelection (imbuesUIItems [i].options [1]);
-		}
-	}
-    
-    // The following 3 functions will show/hide relevant information regarding the 
-    // spell casting process
-    public void ShowSpells() {
-		spellsUIPanel.SetActive (true);
-		imbuesUIPanel.SetActive (false);
-    }
-	public void ShowImbues() {
-		spellsUIPanel.SetActive (false);
-		imbuesUIPanel.SetActive (true);
-    }
-	public void HideSpellUI() {
-		spellsUIPanel.SetActive (false);
-		imbuesUIPanel.SetActive (false);
-    }
 
     // The following 3 functions will eventually control the UI Mana/HP display
     // For now, they will just log the numbers to the console window

@@ -7,7 +7,7 @@ public class PersistentData : MonoBehaviour {
 	public string[] unlockedImbues;
 
 	void Awake() {
-		Debug.Log (GameObject.Find("Persistent Object"));
+		//Debug.Log (GameObject.Find("Persistent Object"));
 	}
 
 	// Use this for initialization

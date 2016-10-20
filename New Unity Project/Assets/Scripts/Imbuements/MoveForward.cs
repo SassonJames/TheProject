@@ -6,9 +6,11 @@ public class MoveForward : BaseImbue {
 	public float speed = 5.0f;
 
 	void Start() {
-		manager = GetComponent<ScriptManager>();
+		if (args [args.Length - 1] != "add") {
+			manager.RemoveMovementScripts (this);
+		}
 	}
-	
+
 	// Update is called once per frame
 	void FixedUpdate () {
 		// Check if the object is being held in place

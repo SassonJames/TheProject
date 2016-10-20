@@ -3,11 +3,11 @@ using System.Collections;
 
 public class FollowCam : MonoBehaviour {
 
-	public GameObject cam;
+	public GameObject player;
 	public GameObject leftBoundObject;
 	public GameObject rightBoundObject;
 
-	public float tracking;
+	public float tracking = 0.1f;
 
 	private float leftBound;
 	private float rightBound;
@@ -29,7 +29,7 @@ public class FollowCam : MonoBehaviour {
         camInsidePos = Vector3.zero;
         camInsideRot = new Quaternion();
         camOutsideRot = new Quaternion();
-		boundDist = cam.GetComponent<Camera> ().orthographicSize * cam.GetComponent<Camera> ().aspect - 2;
+		boundDist = GetComponent<Camera> ().orthographicSize * GetComponent<Camera> ().aspect - 2;
         insideBuilding = false;
 	}
 
@@ -40,47 +40,47 @@ public class FollowCam : MonoBehaviour {
         {
             if (insideBuilding == true)
             {
-                cam.transform.position = Vector3.Lerp(cam.transform.position, camInsidePos, Time.deltaTime*2);
-                cam.transform.rotation = Quaternion.Lerp(cam.transform.rotation, camInsideRot, Time.deltaTime*2);
-                if (Vector3.Distance(cam.transform.position, camInsidePos) < 0.2f)
+                transform.position = Vector3.Lerp(transform.position, camInsidePos, Time.deltaTime*2);
+                transform.rotation = Quaternion.Lerp(transform.rotation, camInsideRot, Time.deltaTime*2);
+				if (Vector3.Distance(player.transform.position, camInsidePos) < 0.2f)
                 {
                     transitioning = false;
-                    this.GetComponent<PlayerMove>().isWalking = true;
+                    player.GetComponent<PlayerMove>().isWalking = true;
                 }
-                if(transform.rotation.eulerAngles.y <= 90.0f)
+                if(player.transform.rotation.eulerAngles.y <= 90.0f)
                 {
-                    transform.rotation = Quaternion.Euler(new Vector3(0, 90.0f, 0));
+                    player.transform.rotation = Quaternion.Euler(new Vector3(0, 90.0f, 0));
                 }
                 else
                 {
-                    this.GetComponent<PlayerMove>().RotateCharacter();
+					player.GetComponent<PlayerMove>().RotateCharacter();
                 }
                 return;
             }
             else
             {
-                cam.transform.position = Vector3.Lerp(cam.transform.position, camOutsidePos, Time.deltaTime * 3);
-                cam.transform.rotation = Quaternion.Lerp(cam.transform.rotation, camOutsideRot, Time.deltaTime * 3);
-                if (Vector3.Distance(cam.transform.position, camOutsidePos) < 0.01f)
+                transform.position = Vector3.Lerp(transform.position, camOutsidePos, Time.deltaTime * 3);
+                transform.rotation = Quaternion.Lerp(transform.rotation, camOutsideRot, Time.deltaTime * 3);
+                if (Vector3.Distance(transform.position, camOutsidePos) < 0.01f)
                 {
                     transitioning = false;
-                    transform.rotation = Quaternion.Euler(new Vector3(0, 180.0f, 0));
-                    GetComponent<PlayerMove>().isWalking = true;
+					player.transform.rotation = Quaternion.Euler(new Vector3(0, 180.0f, 0));
+					player.GetComponent<PlayerMove>().isWalking = true;
                 }
-                if (transform.rotation.eulerAngles.y >= 180.0f)
+				if (player.transform.rotation.eulerAngles.y >= 180.0f)
                 {
-                    transform.rotation = Quaternion.Euler(new Vector3(0, 180.0f, 0));
+					player.transform.rotation = Quaternion.Euler(new Vector3(0, 180.0f, 0));
                 }
                 else
                 {
-                    GetComponent<PlayerMove>().RotateCharacter();
+					player.GetComponent<PlayerMove>().RotateCharacter();
                 }
                 return;
             }
         }
         if (insideBuilding != true)
         {
-            float x = this.transform.position.x;
+			float x = player.transform.position.x;
 
             if (x - leftBound < boundDist)
             {
@@ -89,15 +89,15 @@ public class FollowCam : MonoBehaviour {
             if (rightBound - x < boundDist)
                 return;
 
-            Vector3 newPos = new Vector3(this.transform.position.x, cam.transform.position.y, cam.transform.position.z);
-            cam.transform.position = Vector3.Lerp(cam.transform.position, newPos, tracking);
+			Vector3 newPos = new Vector3(player.transform.position.x, transform.position.y, transform.position.z);
+            transform.position = Vector3.Lerp(transform.position, newPos, tracking);
         }
 	}
 
     public void ChangeToBuildingCamera(Vector3 buildingPos, Vector3 buildingRot)
     {
-        camOutsidePos = cam.transform.position;
-        camOutsideRot = cam.transform.rotation;
+        camOutsidePos = transform.position;
+        camOutsideRot = transform.rotation;
 
         camInsidePos = buildingPos;
         camInsideRot = Quaternion.Euler(buildingRot);

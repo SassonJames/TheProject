@@ -11,6 +11,8 @@ TagManager:
   - DamageSpell
   - NegationSpell
   - LevelChangeCollider
+  - Persistent Object
+  - Switch
   layers:
   - Default
   - TransparentFX
