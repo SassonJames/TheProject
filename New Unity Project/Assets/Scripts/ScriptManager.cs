@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 
 public class ScriptManager : MonoBehaviour {
 
@@ -21,8 +22,8 @@ public class ScriptManager : MonoBehaviour {
 			Destroy (this.GetComponent (script));
 			return UnityEngineInternal.APIUpdaterRuntimeServices.AddComponent (gameObject, "Assets/Scripts/ScriptManager.cs (12,3)", script);
 		*/
-
-		return UnityEngineInternal.APIUpdaterRuntimeServices.AddComponent (gameObject, "Assets/Scripts/ScriptManager.cs (12,3)", script);
+		return gameObject.AddComponent(Type.GetType (script));
+		//return UnityEngineInternal.APIUpdaterRuntimeServices.AddComponent (gameObject, "Assets/Scripts/ScriptManager.cs (12,3)", script);
 	}
 
 	/*

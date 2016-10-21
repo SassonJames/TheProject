@@ -1,0 +1,8 @@
+WASD controls fine
+Spacebar with right hand
+Press and release Lshift quickly
+Casted damage, let go
+Imbue - move back. Casted once, could not repeat
+
+"How do I pick it back up?"
+"How would you figure that out?"

@@ -59,7 +59,7 @@ public class NPCScript : MonoBehaviour {
             player.GetComponent<PlayerMove>().isWalking = false;
             GameObject dialogue = new GameObject();
             TextMesh optionText = dialogue.AddComponent<TextMesh>();
-            dialogue.GetComponent<TextMesh>().text = "Thanks for talking to me! Press 'Z' To continue...";
+            optionText.text = "Thanks for talking to me! Press 'Z' To continue...";
             dialogue.transform.position = (this.gameObject.transform.position + new Vector3(this.gameObject.transform.localScale.x * -2.0f, this.gameObject.transform.localScale.y * 3 / 4, 0));
             dialogue.transform.localScale *= 0.25f;
             dialoguePrompt = dialogue;

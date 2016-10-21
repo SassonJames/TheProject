@@ -28,7 +28,7 @@ public class ___GameManager : MonoBehaviour {
 
 	public static AudioClip negate;
 	public static AudioClip damage;
-	public static AudioSource audio;
+	public static AudioSource audio___;
 
 	private int spellPage;
 	private int imbuePage;
@@ -44,7 +44,7 @@ public class ___GameManager : MonoBehaviour {
 		setupSpells ();
 		setupImbues ();
 		loadCustomSpells ();
-		audio = GetComponent<AudioSource> ();
+		audio___ = GetComponent<AudioSource> ();
 
 		spellPage = 0;
 		imbuePage = 0;
@@ -62,7 +62,7 @@ public class ___GameManager : MonoBehaviour {
 			spellButton.GetComponentInChildren<Text>().text = capture;
 			spellButton.GetComponent<Button>().onClick.AddListener( () => {
 				MainPlayer.GetComponent<Player> ().CastSpell (capture);
-				audio.Play();
+				audio___.Play();
 			});
 			float height = spellButton.GetComponent<RectTransform>().rect.height;
 			spellButton.transform.SetParent(SpellsPanel);
@@ -87,7 +87,7 @@ public class ___GameManager : MonoBehaviour {
 			spellButton.GetComponentInChildren<Text>().text = "Imbue: "+capture;
 			spellButton.GetComponent<Button>().onClick.AddListener( () => {
 				MainPlayer.GetComponent<Player> ().Imbue (capture);
-				audio.Play();
+				audio___.Play();
 			});
 			float height = spellButton.GetComponent<RectTransform>().rect.height;
 			spellButton.transform.SetParent(ImbuesPanel);
@@ -209,7 +209,7 @@ public class ___GameManager : MonoBehaviour {
 			spellButton.GetComponentInChildren<Text>().text = capture;
 			spellButton.GetComponent<Button>().onClick.AddListener( () => {
 				MainPlayer.GetComponent<Player>().CastSpell (idxcap);
-				audio.Play();
+				audio___.Play();
 			});
 			float height = spellButton.GetComponent<RectTransform>().rect.height;
 			spellButton.transform.SetParent(SpellsPanel);
@@ -223,7 +223,7 @@ public class ___GameManager : MonoBehaviour {
 		btn.GetComponentInChildren<Text>().text = "Clear";
 		btn.GetComponent<Button>().onClick.AddListener( () => {
 			MainPlayer.GetComponent<Player> ().CastSpell ("Clear");
-			audio.Play();
+			audio___.Play();
 		});
 		float h = btn.GetComponent<RectTransform>().rect.height;
 		btn.transform.SetParent(SpellsPanel);

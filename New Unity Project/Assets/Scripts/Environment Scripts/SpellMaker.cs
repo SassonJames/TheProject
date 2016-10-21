@@ -21,7 +21,7 @@ public class SpellMaker : MonoBehaviour {
 
 	public bool _____________________________________;
 	
-	public static AudioSource audio;
+	public static AudioSource audio___;
 
 	private GameObject activeSpell;
 	public string  activeImbue;
@@ -53,7 +53,7 @@ public class SpellMaker : MonoBehaviour {
 		loadCustomSpells ();
 
 		// Get the audiosource
-		audio = GetComponent<AudioSource> ();
+		audio___ = GetComponent<AudioSource> ();
 
 	}
 
@@ -62,7 +62,7 @@ public class SpellMaker : MonoBehaviour {
 	 */
 	void Update() {
 		if (Input.GetKeyDown ("escape")) {
-			Application.LoadLevelAsync(1);
+			//Application.LoadLevelAsync(1);
 		}
 	}
 
@@ -166,7 +166,7 @@ public class SpellMaker : MonoBehaviour {
 	 * Enable the input field to save the current spell
 	 */
 	public void Save() {
-		audio.Play ();
+		audio___.Play ();
 		// Don't allow saving null spells
 		if (activeSpell == null)
 			return;
@@ -235,7 +235,7 @@ public class SpellMaker : MonoBehaviour {
 			spellButton.GetComponentInChildren<Text>().text = capture;
 			spellButton.GetComponent<Button>().onClick.AddListener( () => {
 				CastSpell (capture);
-				audio.Play();
+				audio___.Play();
 			});
 			float height = spellButton.GetComponent<RectTransform>().rect.height;
 			spellButton.transform.SetParent(SpellsPanel);
@@ -252,7 +252,7 @@ public class SpellMaker : MonoBehaviour {
 			spellButton.GetComponentInChildren<Text>().text = "Imbue: "+capture;
 			spellButton.GetComponent<Button>().onClick.AddListener( () => {
 				Imbue (capture);
-				audio.Play();
+				audio___.Play();
 			});
 			float height = spellButton.GetComponent<RectTransform>().rect.height;
 			spellButton.transform.SetParent(ImbuesPanel);
@@ -299,7 +299,7 @@ public class SpellMaker : MonoBehaviour {
 			spellButton.GetComponentInChildren<Text>().text = capture;
 			spellButton.GetComponent<Button>().onClick.AddListener( () => {
 				CastSpell (idxcap);
-				audio.Play();
+				audio___.Play();
 			});
 			float height = spellButton.GetComponent<RectTransform>().rect.height;
 			spellButton.transform.SetParent(SpellsPanel);

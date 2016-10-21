@@ -35,13 +35,22 @@ public class Player : MonoBehaviour {
 	private bool casting = false;
 	private bool autoscroll = false;
 	private GameObject selector;
+	private static bool keepStaticFields;
 
-    public void Awake() {
+	public void Awake() {
+		Debug.Log (keepStaticFields);
+
+		if (keepStaticFields) {
+			return;
+		}
 		unlockedImbues = _unlockedImbues;
 		unlockedSpells = _unlockedSpells;
 	}
 
 	public void Start() {
+		keepStaticFields = true;
+		Debug.Log (keepStaticFields);
+		Debug.Log (unlockedImbues.Length);
 		Camera.main.GetComponent<FollowCam> ().player = this.gameObject;
 		GameManager.MainPlayer = this.gameObject;
 
@@ -428,6 +437,7 @@ public class Player : MonoBehaviour {
     void OnDestroy() {
         //hpField.text = "HP: 0";
         //TODO
+		Destroy(selector);
     }
 }
   
