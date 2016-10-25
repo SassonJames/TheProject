@@ -16,10 +16,6 @@ public class Move : BaseImbue {
 	void Start () {
 		if (!manager.isCustom) {
 			speed   = float.Parse(args [1]);
-			Debug.Log(speed);
-			foreach (string s in args) {
-				Debug.Log(s);
-			}
 			// Allow for either 2 or 3 args. 3rd arg is the xyz speed vector
 			// Separated by commas
 			// X speed default to 1, Z speed default to 0

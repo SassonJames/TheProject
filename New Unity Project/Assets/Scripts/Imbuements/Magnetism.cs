@@ -22,7 +22,6 @@ public class Magnetism : BaseImbue {
 		}
 
 		Vector3 move = Vector3.Normalize (manager.target.transform.position - transform.position) * speed;
-		Debug.Log (move);
 		gameObject.GetComponent<Rigidbody> ().velocity = move;
 	}
 }

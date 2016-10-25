@@ -124,7 +124,6 @@ public class PlayerMove : MonoBehaviour {
     {
 		GameManager.StorePersistentData ();
         int goToLevel = obj.GetComponent<LevelChangerData>().toLevel;
-        Debug.Log("I hit tit.");
         this.GetComponent<FadeTransition>().BeginFade(1);
         SceneManager.LoadScene(goToLevel);
 

@@ -42,7 +42,7 @@ public class ScriptManager : MonoBehaviour {
 	// without specifying that it should be added to the existing movement scripts
 	public void RemoveMovementScripts() {
 		Component[] scripts = null;
-		Debug.Log ("DESTROY");
+		Debug.Log ("Removing movement scripts...");
 
 		// I've decided to make this script do the annoying "50thousand if statement" method
 		// Simply because it would be doing that slow search a lot otherwise
@@ -67,7 +67,7 @@ public class ScriptManager : MonoBehaviour {
 	// Destroy all movement scripts except the given component
 	public void RemoveMovementScripts(Component exception) {
 		Component[] scripts = null;
-		Debug.Log ("DESTROY");
+		Debug.Log ("Removing movement scripts +exception...");
 
 		// I've decided to make this script do the annoying "50thousand if statement" method
 		// Simply because it would be doing that slow search a lot otherwise

@@ -38,8 +38,6 @@ public class Player : MonoBehaviour {
 	private static bool keepStaticFields;
 
 	public void Awake() {
-		Debug.Log (keepStaticFields);
-
 		if (keepStaticFields) {
 			return;
 		}
@@ -49,8 +47,6 @@ public class Player : MonoBehaviour {
 
 	public void Start() {
 		keepStaticFields = true;
-		Debug.Log (keepStaticFields);
-		Debug.Log (unlockedImbues.Length);
 		Camera.main.GetComponent<FollowCam> ().player = this.gameObject;
 		GameManager.MainPlayer = this.gameObject;
 

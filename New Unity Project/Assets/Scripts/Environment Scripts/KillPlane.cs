@@ -13,7 +13,6 @@ public class KillPlane : MonoBehaviour {
 	}
 
 	void OnCollisionEnter(Collision coll) {
-		Debug.Log ("killme");
 		if (coll.gameObject.tag == "Player") {
 			coll.gameObject.GetComponent<Player> ().CastSpell ("Clear");
 			Destroy (coll.gameObject);
