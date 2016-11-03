@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: c9ad725d73b59db46a130e4ddc513c57
+timeCreated: 1470959194
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - damagePrefab: {fileID: 175716, guid: b7c1b86d26be411448dbaa664d343a10, type: 2}
+  - negatePrefab: {instanceID: 0}
+  - selector: {instanceID: 0}
+  - manaField: {instanceID: 0}
+  - hpField: {instanceID: 0}
+  - errorField: {instanceID: 0}
+  - activeSpell: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -13,6 +13,7 @@ TagManager:
   - LevelChangeCollider
   - Persistent Object
   - Switch
+  - Enemy
   layers:
   - Default
   - TransparentFX

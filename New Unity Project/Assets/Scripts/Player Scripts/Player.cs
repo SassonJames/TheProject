@@ -12,9 +12,9 @@ public class Player : MonoBehaviour {
 	public GameObject selectorPrefab;
 
 	public bool gameobjects_________________________________;
-	public Text manaField;
-	public Text hpField;
-	public Text errorField;
+	public GameObject manaField;
+	public GameObject hpField;
+	public GameObject errorField;
 
 	public bool raw_values____________________________________;
 	public Vector3 spellPosition;
@@ -34,7 +34,7 @@ public class Player : MonoBehaviour {
 
 	private bool casting = false;
 	private bool autoscroll = false;
-	private GameObject selector;
+	public GameObject selector;
 	private static bool keepStaticFields;
 
 	public void Awake() {
