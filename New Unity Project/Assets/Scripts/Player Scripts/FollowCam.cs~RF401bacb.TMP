@@ -89,7 +89,7 @@ public class FollowCam : MonoBehaviour {
             if (rightBound - x < boundDist)
                 return;
 
-			Vector3 newPos = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z - 15.0f);
+			Vector3 newPos = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z - 5.0f);
             transform.position = Vector3.Lerp(transform.position, newPos, tracking);
         }
 	}
