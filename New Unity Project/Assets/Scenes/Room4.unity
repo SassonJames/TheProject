@@ -279,14 +279,8 @@ MonoBehaviour:
   damagePrefab: {fileID: 175716, guid: b7c1b86d26be411448dbaa664d343a10, type: 2}
   negatePrefab: {fileID: 0}
   selectorPrefab: {fileID: 0}
-  gameobjects_________________________________: 0
-  manaField: {fileID: 1452616820}
-  hpField: {fileID: 1452616820}
-  errorField: {fileID: 1452616820}
   raw_values____________________________________: 0
   spellPosition: {x: 0, y: 0, z: -1}
-  _unlockedSpells: []
-  _unlockedImbues: []
   init_on_start__________________________________: 0
   health: 1
   mana: 100
@@ -673,6 +667,29 @@ CanvasRenderer:
 GameObject:
   m_PrefabParentObject: {fileID: 183494, guid: 97ee005ab2a47934f9fce304308ad19a, type: 2}
   m_PrefabInternal: {fileID: 1324138437}
+--- !u!114 &429434645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 429434644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0284144fbc136c409b4fae1a018244f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameobjects_________________________________: 0
+  manaField: {fileID: 0}
+  hpField: {fileID: 0}
+  errorField: {fileID: 0}
+  raw_values____________________________________: 0
+  unlockedSpells:
+  - Damage
+  - Clear
+  unlockedImbues:
+  - MoveForward
+  - 'Move: 5 : (0, 0, 1)'
+  - 'ImbueLater: 2 : (MoveForward)'
 --- !u!1 &458437346
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,7 +7,7 @@ public class DestroyPair : MonoBehaviour {
 
 	void OnTriggerEnter(Collider coll) {
 		//Debug.Log (coll.gameObject.name);
-		if (coll.gameObject.tag == "DamageSpell") {
+		if (coll.gameObject.tag == "DamageSpell" && coll.GetComponent<ScriptManager>().owner != this.gameObject) {
 			//GameManager.audio.PlayOneShot(GameManager.negate);
 			Destroy (destroy);
 			Destroy (coll.gameObject);

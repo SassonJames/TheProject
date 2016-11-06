@@ -26,6 +26,7 @@ public class QuickCast : MonoBehaviour {
     private UIDisplay playerUIDisplay;
     private PlayerStats playerStats;
 
+	/*
 	// Use this for initialization
 	void Start () {
         playerUIDisplay = this.GetComponentInChildren<UIDisplay>();
@@ -116,4 +117,5 @@ public class QuickCast : MonoBehaviour {
             augmentationCount++;
         }
     }
+    */
 }
