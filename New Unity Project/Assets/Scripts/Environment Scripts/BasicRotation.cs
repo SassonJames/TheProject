@@ -2,14 +2,9 @@
 using System.Collections;
 
 public class BasicRotation : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-	
-	}
 	
 	// Update is called once per frame
-	void Update () {
+	void LateUpdate () {
         transform.Rotate(Vector3.up * Time.deltaTime * 60, Space.World);
 	}
 }
