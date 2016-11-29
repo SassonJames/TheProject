@@ -35,7 +35,7 @@ public class Player : MonoBehaviour {
 	private bool casting = false;
 	private bool autoscroll = false;
 	public GameObject selector;
-	private static bool keepStaticFields;
+	public static bool keepStaticFields;
 
 	public void Awake() {
 		if (keepStaticFields) {

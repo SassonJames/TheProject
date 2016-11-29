@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour {
 	public static CastUIItem[] spellsUIItems;
 	public static CastUIItem[] imbuesUIItems;
 	public static     string[] hotkeys;
+	public static         bool keepStaticFields = false;
 
 	private static int spellsUIPage = 0;
 	private static int imbuesUIPage = 0;
@@ -64,11 +65,12 @@ public class GameManager : MonoBehaviour {
 	public static void RetrievePersistentData() {
 		GameObject po = GameObject.Find("Persistent Object(Clone)");
 
-		if (po != null) {
+		if (!keepStaticFields && po != null) {
 			PersistentData pd = po.GetComponent<PersistentData> ();
 			Player.unlockedSpells = pd.unlockedSpells;
 			Player.unlockedImbues = pd.unlockedImbues;
 		}
+		keepStaticFields = false;
 		Destroy (po);
 	}
 
