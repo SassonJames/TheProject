@@ -5,6 +5,9 @@ using System.Text.RegularExpressions;
 
 public class Enemy : Player {
 
+	new public void Awake() {
+	}
+
 	new public void Start() {
 		imbues = new Stack ();
 		spells = new Stack ();

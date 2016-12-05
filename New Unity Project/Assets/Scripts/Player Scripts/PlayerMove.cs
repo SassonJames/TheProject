@@ -55,7 +55,7 @@ public class PlayerMove : MonoBehaviour {
 
     void Jump()
 	{
-        if (Input.GetKey("space") && airTime < maxAirTime)
+		if ((grounded || isJumping) && Input.GetKey("space") && airTime < maxAirTime)
         {
 			
             isJumping = true;
@@ -107,7 +107,6 @@ public class PlayerMove : MonoBehaviour {
     private void AddWalkVelocity()
     {
         rb.velocity = new Vector3(Input.GetAxis("Horizontal") * speed, GetComponent<Rigidbody>().velocity.y, Input.GetAxis("Vertical") * speed);
-
 
 		// I stole this from the internet
 		RaycastHit hit;

@@ -11,15 +11,8 @@ public class Player : MonoBehaviour {
 	public GameObject negatePrefab;
 	public GameObject selectorPrefab;
 
-	public bool gameobjects_________________________________;
-	public GameObject manaField;
-	public GameObject hpField;
-	public GameObject errorField;
-
 	public bool raw_values____________________________________;
 	public Vector3 spellPosition;
-	public string[] _unlockedSpells;
-	public string[] _unlockedImbues;
 
 	public bool init_on_start__________________________________;
 	public static string[] unlockedSpells;
@@ -27,6 +20,7 @@ public class Player : MonoBehaviour {
 	public int health = 100;
 	public int mana   = 100;
 	public bool stunned = false;
+
 	public GameObject activeSpell;
 	public string  activeImbue;
 	public Stack spells;
@@ -41,8 +35,8 @@ public class Player : MonoBehaviour {
 		if (keepStaticFields) {
 			return;
 		}
-		unlockedImbues = _unlockedImbues;
-		unlockedSpells = _unlockedSpells;
+		unlockedImbues = GetComponent<PlayerStats>().unlockedImbues;
+		unlockedSpells = GetComponent<PlayerStats>().unlockedSpells;
 	}
 
 	public void Start() {
@@ -265,8 +259,8 @@ public class Player : MonoBehaviour {
 		if (scriptComponent != null) {
 			scriptComponent.args = tokens;
 			scriptComponent.manager = activeSpell.GetComponent<ScriptManager> ();
-			imbues.Push(activeImbue);
-			activeImbue = imbuement;
+			//imbues.Push(activeImbue);
+			//activeImbue = imbuement;
 			//Debug.Log (imbues.Peek());
 		}
 	}
@@ -364,11 +358,13 @@ public class Player : MonoBehaviour {
 	public void OnTriggerEnter(Collider coll) {
 		//Debug.Log (coll.gameObject.name);
 		if (coll.gameObject.tag == "DamageSpell" && coll.GetComponent<ScriptManager>().owner != this.gameObject) {
+			Debug.Log (coll.GetComponent<ScriptManager>().owner);
+			Debug.Log (this.gameObject);
 			health -= coll.GetComponent<Damage>().damage;
 			Destroy (coll.gameObject);
 			//GameManager.audio.PlayOneShot(GameManager.damage);
 			if (health <= 0) {
-				Destroy (this.gameObject);
+				//Destroy (this.gameObject);
 			}
 		}
 	}

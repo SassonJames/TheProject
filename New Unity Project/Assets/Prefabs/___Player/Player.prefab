@@ -16,13 +16,14 @@ GameObject:
   - 114: {fileID: 11461408}
   - 143: {fileID: 14302146}
   - 114: {fileID: 11459094}
+  - 114: {fileID: 11494084}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &492080
 Transform:
   m_ObjectHideFlags: 1
@@ -143,25 +144,38 @@ MonoBehaviour:
   damagePrefab: {fileID: 175716, guid: b7c1b86d26be411448dbaa664d343a10, type: 2}
   negatePrefab: {fileID: 0}
   selectorPrefab: {fileID: 151448, guid: 3ab5d76cd9db64d4e81fe04679b45f3a, type: 2}
-  gameobjects_________________________________: 0
-  manaField: {fileID: 0}
-  hpField: {fileID: 0}
-  errorField: {fileID: 0}
   raw_values____________________________________: 0
   spellPosition: {x: 1, y: 0, z: 0}
-  _unlockedSpells:
-  - Damage
-  - Clear
-  _unlockedImbues:
-  - MoveForward
-  - 'Move: 10 : 0,0,1'
-  - 'ImbueLater: 2: (Move: 10: 1,0,0)'
   init_on_start__________________________________: 0
   health: 100
   mana: 100
   stunned: 0
   activeSpell: {fileID: 0}
   activeImbue: 
+  selector: {fileID: 0}
+--- !u!114 &11494084
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 183494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0284144fbc136c409b4fae1a018244f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameobjects_________________________________: 0
+  manaField: {fileID: 0}
+  hpField: {fileID: 0}
+  errorField: {fileID: 0}
+  raw_values____________________________________: 0
+  unlockedSpells:
+  - Damage
+  - Clear
+  unlockedImbues:
+  - MoveForward
+  - 'Move: 5 : (0, 0, 1)'
+  - 'ImbueLater: 2 : (MoveForward)'
 --- !u!143 &14302146
 CharacterController:
   m_ObjectHideFlags: 1
