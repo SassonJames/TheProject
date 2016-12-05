@@ -27,6 +27,7 @@ public class PlayerMove : MonoBehaviour {
         isWalking = true;
         isJumping = false;
         insideBuilding = false;
+		grounded = true;
 
         airTime = 0f;
         Physics.gravity = new Vector3(0.0f, -gravity, 0.0f);
@@ -75,7 +76,8 @@ public class PlayerMove : MonoBehaviour {
 
     void Ground()
     {
-        float distToGround = this.GetComponent<Collider>().bounds.extents.y + 0.001f;
+		float distToGround = this.GetComponent<CapsuleCollider>().height + 0.001f;
+		Debug.Log (distToGround);
         if (Physics.Raycast(transform.position, -Vector3.up, distToGround))
         {
             grounded = true;

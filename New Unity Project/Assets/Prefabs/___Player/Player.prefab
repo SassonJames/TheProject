@@ -14,16 +14,16 @@ GameObject:
   - 54: {fileID: 5446686}
   - 114: {fileID: 11443980}
   - 114: {fileID: 11461408}
-  - 143: {fileID: 14302146}
   - 114: {fileID: 11459094}
   - 114: {fileID: 11494084}
+  - 136: {fileID: 13639848}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &492080
 Transform:
   m_ObjectHideFlags: 1
@@ -31,8 +31,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 183494}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.35, y: 1.28, z: -4.54}
-  m_LocalScale: {x: 1, y: 1.744517, z: 0.045295198}
+  m_LocalPosition: {x: -4.44, y: 1.28, z: -4.54}
+  m_LocalScale: {x: 1, y: 1.744517, z: 0.7034}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -92,7 +92,7 @@ BoxCollider:
   m_GameObject: {fileID: 183494}
   m_Material: {fileID: 13400000, guid: 86faf266ac8c8fb47adf6317194c2cfc, type: 2}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -176,22 +176,18 @@ MonoBehaviour:
   - MoveForward
   - 'Move: 5 : (0, 0, 1)'
   - 'ImbueLater: 2 : (MoveForward)'
---- !u!143 &14302146
-CharacterController:
+--- !u!136 &13639848
+CapsuleCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 183494}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 86faf266ac8c8fb47adf6317194c2cfc, type: 2}
   m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Height: 1
+  m_Enabled: 1
   m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
+  m_Height: 1
+  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &100100000
 Prefab:
