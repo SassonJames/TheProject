@@ -19,6 +19,10 @@ public class Player : MonoBehaviour {
 	public static string[] unlockedImbues;
 	public int health = 100;
 	public int mana   = 100;
+	public static int MAX_HP = 100;
+	public static int MAX_MANA = 100;
+	public static float hbarwidth;
+	public static float mbarwidth;
 	public bool stunned = false;
 
 	public GameObject activeSpell;
@@ -30,13 +34,15 @@ public class Player : MonoBehaviour {
 	private bool autoscroll = false;
 	public GameObject selector;
 	public static bool keepStaticFields;
+	public PlayerStats playerstats;
 
 	public void Awake() {
+		playerstats = GetComponent<PlayerStats> ();
 		if (keepStaticFields) {
 			return;
 		}
-		unlockedImbues = GetComponent<PlayerStats>().unlockedImbues;
-		unlockedSpells = GetComponent<PlayerStats>().unlockedSpells;
+		unlockedImbues = playerstats.unlockedImbues;
+		unlockedSpells = playerstats.unlockedSpells;
 	}
 
 	public void Start() {
@@ -77,6 +83,7 @@ public class Player : MonoBehaviour {
 
         // If no spell is active, use hotkeys create base spell
 		if (casting && activeSpell == null) {
+			GameManager.ShowSpells();
 			// Arrow keys scroll through the options
 			if (Input.GetKeyDown (KeyCode.DownArrow)) {
 				GameManager.ScrollSpellsUp ();
@@ -417,13 +424,13 @@ public class Player : MonoBehaviour {
     // The following 3 functions will eventually control the UI Mana/HP display
     // For now, they will just log the numbers to the console window
 	public void UpdateManabar() {
-        //manaField.text = "Mana: " + mana;
+		playerstats.manaField.GetComponent<RectTransform> ().localScale = new Vector3 ((float)mana / (float)MAX_MANA, 1f, 1f);
         Debug.Log("Mana: " + mana);
         //TODO
     }
-    public void updateHPBar() {
-        //hpField.text = "HP: " + health;
-        //Debug.Log("HP: " + health);
+	public void updateHPBar() {
+		playerstats.hpField.GetComponent<RectTransform> ().localScale = new Vector3 ((float)health / (float)MAX_HP, 1f, 1f);
+        Debug.Log("HP: " + health);
         //TODO
     }
     void OnDestroy() {

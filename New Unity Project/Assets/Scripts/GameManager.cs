@@ -28,6 +28,9 @@ public class GameManager : MonoBehaviour {
 
 
 	public void Start() {
+		Player.hbarwidth = MainPlayer.GetComponent<PlayerStats> ().hpField.GetComponent<RectTransform> ().rect.width;
+		Player.mbarwidth = MainPlayer.GetComponent<PlayerStats> ().manaField.GetComponent<RectTransform> ().rect.width;
+
 		persistentPrefab = _persistentPrefab;
 		RetrievePersistentData ();
 
