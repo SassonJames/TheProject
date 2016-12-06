@@ -20,6 +20,5 @@ public class Enemy : Player {
 		if (activeSpell != null)
 			activeSpell.gameObject.transform.position = Vector3.Lerp(activeSpell.gameObject.transform.position, transform.position + spellPosition, 0.1f);
     }
-
 }
   

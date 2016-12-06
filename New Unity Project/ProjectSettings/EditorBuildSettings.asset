@@ -16,4 +16,8 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/TestArea.unity
   - enabled: 1
-    path: Assets/Scenes/SpellTutorial1.unity
+    path: Assets/Scenes/_SpellTutorial1.unity
+  - enabled: 1
+    path: Assets/Scenes/_ImbueTut1.unity
+  - enabled: 1
+    path: Assets/Scenes/Fin.unity

@@ -424,18 +424,20 @@ public class Player : MonoBehaviour {
     // The following 3 functions will eventually control the UI Mana/HP display
     // For now, they will just log the numbers to the console window
 	public void UpdateManabar() {
+		if (playerstats == null)
+			return;
 		playerstats.manaField.GetComponent<RectTransform> ().localScale = new Vector3 ((float)mana / (float)MAX_MANA, 1f, 1f);
         Debug.Log("Mana: " + mana);
-        //TODO
     }
 	public void updateHPBar() {
+		if (playerstats == null)
+			return;
 		playerstats.hpField.GetComponent<RectTransform> ().localScale = new Vector3 ((float)health / (float)MAX_HP, 1f, 1f);
         Debug.Log("HP: " + health);
-        //TODO
     }
     void OnDestroy() {
-        //hpField.text = "HP: 0";
-        //TODO
+		if (playerstats == null)
+			return;
 		Destroy(selector);
     }
 }
