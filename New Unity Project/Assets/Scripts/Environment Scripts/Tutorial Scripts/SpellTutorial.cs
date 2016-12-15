@@ -9,7 +9,6 @@ public class SpellTutorial : MonoBehaviour {
 	public GameObject exit;
 	public GameObject restart;
 	public GameObject rightCollider;
-	public GameObject barrier;
 
 	public int state = 0;
 
@@ -23,6 +22,7 @@ public class SpellTutorial : MonoBehaviour {
 		door.SetActive (false);
 		exit.SetActive (false);
 		restart.SetActive (false);
+		rightCollider.SetActive (false);
 		GameManager.keepStaticFields = true;
 	}
 
@@ -54,7 +54,7 @@ public class SpellTutorial : MonoBehaviour {
 			state = 1;
 		} if (state == 2 && GameManager.MainPlayer.GetComponent<Player> ().activeSpell != null) {
 			state = 3;
-			barrier.SetActive (false);
+			rightCollider.SetActive (true);
 			mesh.text = "Keep holding shift! You are now casting " + Player.unlockedSpells [0];
 			mesh.text += "\nYou will carry this spell with you as long as you hold left shift";
 			mesh.text += "\nPlace it down by the right wall by releasing shift near it.";
@@ -62,6 +62,7 @@ public class SpellTutorial : MonoBehaviour {
 			state = 2;
 		} if (state == 3 && GameManager.MainPlayer.GetComponent<Player> ().activeSpell == null && rightCollider.GetComponent<DetectDamage>().detected) {
 			state = 4;
+			rightCollider.SetActive (false);
 			mesh.text = "Your spell will sit where it is until it is destroyed.";
 			mesh.text += "\nSpells can be made to do much more, but for now they are still.";
 			mesh.text += "\nCollect the yellow cube to learn the CLEAR spell.";

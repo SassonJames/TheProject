@@ -2832,6 +2832,7 @@ MonoBehaviour:
   leftBoundObject: {fileID: 1464953850}
   rightBoundObject: {fileID: 470038837}
   tracking: 0.1
+  rise: 0
   transitioning: 0
 --- !u!1 &2067044504
 GameObject:
@@ -3376,7 +3377,7 @@ GameObject:
   - 4: {fileID: 2146095946}
   m_Layer: 0
   m_Name: Spawn
-  m_TagString: Untagged
+  m_TagString: Respawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
