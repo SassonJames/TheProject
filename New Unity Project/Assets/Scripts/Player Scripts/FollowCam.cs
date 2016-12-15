@@ -8,6 +8,7 @@ public class FollowCam : MonoBehaviour {
 	public GameObject rightBoundObject;
 
 	public float tracking = 0.1f;
+	public float rise;
 
 	private float leftBound;
 	private float rightBound;
@@ -31,6 +32,7 @@ public class FollowCam : MonoBehaviour {
         camOutsideRot = new Quaternion();
 		boundDist = GetComponent<Camera> ().orthographicSize * GetComponent<Camera> ().aspect - 2;
         insideBuilding = false;
+		rise = transform.position.y;
 	}
 
 	// Update is called once per frame
@@ -81,6 +83,8 @@ public class FollowCam : MonoBehaviour {
         if (insideBuilding != true)
         {
 			float x = player.transform.position.x;
+			float z = player.transform.position.z;
+			float y = transform.position.y;
 
             if (x - leftBound < boundDist)
             {
@@ -88,8 +92,12 @@ public class FollowCam : MonoBehaviour {
             }
             if (rightBound - x < boundDist)
                 return;
+			if (player.GetComponent<PlayerMove> ().grounded) {
+				y = player.transform.position.y + rise;
+			}
 
-			Vector3 newPos = new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z - 15.0f);
+
+			Vector3 newPos = new Vector3(x, y, z - 15.0f);
             transform.position = Vector3.Lerp(transform.position, newPos, tracking);
         }
 	}
